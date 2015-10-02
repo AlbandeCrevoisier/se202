@@ -16,9 +16,8 @@ def p_expression_ifThenElse(p):
 #    '''expression : IF expression THEN expression
 #                  | IF expression THEN expression ELSE expression'''
 #    p[0] = IfThenElse(p[1], p[3], p[5]=None)
-
     'expression : IF expression THEN expression ELSE expression'
-    p[0] = IfThenElse(p[1], p[3], p[5])
+    p[0] = IfThenElse(p[2], p[4], p[6])
 
 def p_expression_binop(p):
     '''expression : expression PLUS expression

@@ -48,8 +48,8 @@ class TestEvaluator(unittest.TestCase):
         self.check(BinaryOperator('<>', IntegerLiteral(1), IntegerLiteral(1)), 0)
 
     def test_ifThenElse(self):
-        ite = IfThenElse(IntegerLiteral(0), IntegerLiteral(1), IntegerLiteral(2)).accept(Evaluator())
-        self.check(ite, 2)
+        self.check(IfThenElse(IntegerLiteral(1), IntegerLiteral(2), IntegerLiteral(3)), 2)
+        self.check(IfThenElse(IntegerLiteral(0), IntegerLiteral(2), IntegerLiteral(3)), 3)
 
     def test_priorities(self):
         self.check(BinaryOperator('+', IntegerLiteral(1), BinaryOperator('*', IntegerLiteral(2), IntegerLiteral(3))), 7)
