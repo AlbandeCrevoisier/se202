@@ -16,17 +16,17 @@ class Evaluator:
         op = binop.op
         # short-circuit
         if op == '&':
-            if left == 1:
+            if left != 0:
                 right = binop.right.accept(self)
-                if right == 1:
+                if right != 0:
                     return 1
             return 0
         elif op == '|':
-            if left == 1:
+            if left != 0:
                 return 1
             else:
                 right = binop.right.accept(self)
-                if right == 1:
+                if right != 0:
                    return 1
             return 0
 

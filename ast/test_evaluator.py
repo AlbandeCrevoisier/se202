@@ -17,7 +17,6 @@ class TestEvaluator(unittest.TestCase):
 
     def test_basic_operator(self):
         self.check(BinaryOperator('+', IntegerLiteral(10), IntegerLiteral(20)), 30)
-        # my test
         self.check(BinaryOperator('*', IntegerLiteral(6), IntegerLiteral(7)), 42)
         self.check(BinaryOperator('-', IntegerLiteral(10), IntegerLiteral(1)), 9)
         self.check(BinaryOperator('/', IntegerLiteral(42), IntegerLiteral(7)), 6)
@@ -63,7 +62,6 @@ class TestEvaluator(unittest.TestCase):
     def test_precedence(self):
         self.parse_check('1 + 2 * 3', 7)
         self.parse_check('2 * 3 + 1', 7)
-        # my test
         self.parse_check('1 + 2 - 3', 0)
         self.parse_check('2 - 3 + 1', 0)
         self.parse_check('1 + 2 / 3', 1)
