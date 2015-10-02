@@ -5,9 +5,11 @@ import ply.yacc as yacc
 tokens = tokenizer.tokens
 
 precedence = (
+    ('left', 'OR'),
+    ('left', 'AND'),
+    ('left', 'INF', 'INFOREQ', 'SUP', 'SUPOREQ', 'EQ', 'DIFF'),
     ('left', 'PLUS', 'MINUS'),
-    ('left', 'TIMES', 'DIV'),
-    ('left', 'AND', 'OR')
+    ('left', 'TIMES', 'DIV')
 )
 
 def p_expression_binop(p):
@@ -15,6 +17,12 @@ def p_expression_binop(p):
                   | expression TIMES expression
                   | expression MINUS expression
                   | expression DIV expression
+                  | expression INF expression
+                  | expression INFOREQ expression
+                  | expression SUP expression
+                  | expression SUPOREQ expression
+                  | expression EQ expression
+                  | expression DIFF expression
                   | expression AND expression
                   | expression OR expression'''
     p[0] = BinaryOperator(p[2], p[1], p[3])

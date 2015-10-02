@@ -33,6 +33,36 @@ class Evaluator:
                 return 1
             else:
                 return 0
+        elif op == '<':
+            if (left < right):
+                return 1
+            else:
+                return 0
+        elif op == '<=':
+            if (left <= right):
+                return 1
+            else:
+                return 0
+        elif op == '>':
+            if (left > right):
+                return 1
+            else:
+                return 0
+        elif op == '>=':
+            if (left >= right):
+                return 1
+            else:
+                return 0
+        elif op == '=':
+            if (left == right):
+                return 1
+            else:
+                return 0
+        elif op == '<>':
+            if (left != right):
+                return 1
+            else:
+                return 0
         else:
             raise SyntaxError("unknown operator %s" % op)
 
