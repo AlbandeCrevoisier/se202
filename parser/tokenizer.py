@@ -29,7 +29,7 @@ tokens = ('END', 'IN', 'LET', 'VAR',
           'COMMA', 'SEMICOLON',
           'LPAREN', 'RPAREN',
           'NUMBER', 'ID',
-          'COLON', 'ASSIGN')
+          'COLON', 'ASSIGN') + ('IF', 'THEN', 'ELSE')
 
 t_TIMES = r'\*'
 t_DIV = r'\/'
