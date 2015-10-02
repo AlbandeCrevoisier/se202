@@ -20,7 +20,7 @@ class Evaluator:
         elif op == '-':
             return left - right 
         elif op == '/':
-            return left / right 
+            return left // right 
         # True = 1, False = 0
         # thus left * right would be right, but not readable. Possible optim ?
         elif op == '&':

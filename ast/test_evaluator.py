@@ -21,6 +21,7 @@ class TestEvaluator(unittest.TestCase):
         self.check(BinaryOperator('*', IntegerLiteral(6), IntegerLiteral(7)), 42)
         self.check(BinaryOperator('-', IntegerLiteral(10), IntegerLiteral(1)), 9)
         self.check(BinaryOperator('/', IntegerLiteral(42), IntegerLiteral(7)), 6)
+        self.check(BinaryOperator('/', IntegerLiteral(42), IntegerLiteral(5)), 8)
         self.check(BinaryOperator('&', IntegerLiteral(0), IntegerLiteral(0)), 0)
         self.check(BinaryOperator('&', IntegerLiteral(0), IntegerLiteral(1)), 0)
         self.check(BinaryOperator('&', IntegerLiteral(1), IntegerLiteral(0)), 0)
@@ -44,7 +45,15 @@ class TestEvaluator(unittest.TestCase):
         self.parse_check('1 + 2 * 3', 7)
         self.parse_check('2 * 3 + 1', 7)
         # my test
-        self.parse_check('42 - 21 / 7', 39)
+        self.parse_check('1 + 2 - 3', 0)
+        self.parse_check('2 - 3 + 1', 0)
+        self.parse_check('1 + 2 / 3', 1)
+        self.parse_check('2 / 3 + 1', 1)
+        self.parse_check('3 - 2 * 1', 1)
+        self.parse_check('3 * 2 - 1', 5)
+        self.parse_check('1 - 2 / 3', 1)
+        self.parse_check('3 / 2 - 1', 0)
+
 
 if __name__ == '__main__':
     unittest.main()
