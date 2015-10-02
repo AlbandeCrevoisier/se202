@@ -23,6 +23,14 @@ class Binder(Visitor):
         """Return the current scope."""
         return self.scopes[-1]
 
+    def add_binding(self, name, decl):
+        """Add a binding to the current scope."""
+        self.current_scope()[name] = decl
+
+    def binding_exists(self, name):
+        """Check if a binding already exists in the current scope."""
+        return name in self.current_scope()
+
     def lookup(self, name):
         """Return the declaration associated with a name, looking
         into the closest scope first. If no declaration is found,

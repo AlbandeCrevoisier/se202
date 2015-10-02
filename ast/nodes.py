@@ -74,12 +74,18 @@ class IfThenElse(Node):
 
 class Type(Node):
 
-    def _init__(self, typename):
+    def __init__(self, typename):
+        super().__init__()
         self.typename = typename
 
 
 class Decl(Node):
     """Abstract type regrouping various entity declarations"""
+
+    def __init__(self):
+        super().__init__()
+        self.escapes = False
+        self.depth = None
 
 
 class VarDecl(Decl):
