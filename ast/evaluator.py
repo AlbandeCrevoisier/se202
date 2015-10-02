@@ -13,10 +13,28 @@ class Evaluator:
     def visit(self, binop):
         left, right = binop.left.accept(self), binop.right.accept(self)
         op = binop.op
+# implement : -, /, &, | and comparison operators.
+# watch out for order and associativity (right-hand evaluation)
         if op == '+':
             return left + right
         elif op == '*':
             return left * right
+        elif op == '-':
+            return left - right # right eval ?
+        elif op == '/':
+            return left / right # right eval ?
+        # True = 1, False = 0
+        # thus left * right would be right, but not readable. Possible optim.
+        elif op == '&':
+            if left == 1 and right == 1:
+                return 1
+            else:
+                return 0
+        elif op == '|':
+            if left == 1 or right == 1:
+                return 1
+            else:
+                return 0
         else:
             raise SyntaxError("unknown operator %s" % op)
 
