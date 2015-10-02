@@ -17,13 +17,18 @@ class TestEvaluator(unittest.TestCase):
 
     def test_basic_operator(self):
         self.check(BinaryOperator('+', IntegerLiteral(10), IntegerLiteral(20)), 30)
-
-        # mine
+        # my test
         self.check(BinaryOperator('*', IntegerLiteral(6), IntegerLiteral(7)), 42)
         self.check(BinaryOperator('-', IntegerLiteral(10), IntegerLiteral(1)), 9)
         self.check(BinaryOperator('/', IntegerLiteral(42), IntegerLiteral(7)), 6)
+        self.check(BinaryOperator('&', IntegerLiteral(0), IntegerLiteral(0)), 0)
+        self.check(BinaryOperator('&', IntegerLiteral(0), IntegerLiteral(1)), 0)
+        self.check(BinaryOperator('&', IntegerLiteral(1), IntegerLiteral(0)), 0)
         self.check(BinaryOperator('&', IntegerLiteral(1), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('|', IntegerLiteral(0), IntegerLiteral(0)), 0)
+        self.check(BinaryOperator('|', IntegerLiteral(0), IntegerLiteral(1)), 1)
         self.check(BinaryOperator('|', IntegerLiteral(1), IntegerLiteral(0)), 1)
+        self.check(BinaryOperator('|', IntegerLiteral(1), IntegerLiteral(1)), 1)
 
 
     def test_priorities(self):
@@ -38,10 +43,8 @@ class TestEvaluator(unittest.TestCase):
     def test_precedence(self):
         self.parse_check('1 + 2 * 3', 7)
         self.parse_check('2 * 3 + 1', 7)
-
         # my test
-        self.parse_check('17 - 7 - 1', 9)
-        self.parse_check('42 / 7 / 6', 1)
+        self.parse_check('42 - 21 / 7', 39)
 
 if __name__ == '__main__':
     unittest.main()
