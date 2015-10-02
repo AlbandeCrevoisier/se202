@@ -1,7 +1,7 @@
 import unittest
 
 from ast.evaluator import Evaluator
-from ast.nodes import IntegerLiteral, BinaryOperator, IfThenElse, LogicalOperator
+from ast.nodes import IntegerLiteral, BinaryOperator, IfThenElse, BinaryOperator
 from parser.parser import parse
 
 class TestEvaluator(unittest.TestCase):
@@ -22,14 +22,14 @@ class TestEvaluator(unittest.TestCase):
         self.check(BinaryOperator('-', IntegerLiteral(10), IntegerLiteral(1)), 9)
         self.check(BinaryOperator('/', IntegerLiteral(42), IntegerLiteral(7)), 6)
         self.check(BinaryOperator('/', IntegerLiteral(42), IntegerLiteral(5)), 8)
-        self.check(LogicalOperator('&', IntegerLiteral(0), IntegerLiteral(0)), 0)
-        self.check(LogicalOperator('&', IntegerLiteral(0), IntegerLiteral(1)), 0)
-        self.check(LogicalOperator('&', IntegerLiteral(1), IntegerLiteral(0)), 0)
-        self.check(LogicalOperator('&', IntegerLiteral(1), IntegerLiteral(1)), 1)
-        self.check(LogicalOperator('|', IntegerLiteral(0), IntegerLiteral(0)), 0)
-        self.check(LogicalOperator('|', IntegerLiteral(0), IntegerLiteral(1)), 1)
-        self.check(LogicalOperator('|', IntegerLiteral(1), IntegerLiteral(0)), 1)
-        self.check(LogicalOperator('|', IntegerLiteral(1), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('&', IntegerLiteral(0), IntegerLiteral(0)), 0)
+        self.check(BinaryOperator('&', IntegerLiteral(0), IntegerLiteral(1)), 0)
+        self.check(BinaryOperator('&', IntegerLiteral(1), IntegerLiteral(0)), 0)
+        self.check(BinaryOperator('&', IntegerLiteral(1), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('|', IntegerLiteral(0), IntegerLiteral(0)), 0)
+        self.check(BinaryOperator('|', IntegerLiteral(0), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('|', IntegerLiteral(1), IntegerLiteral(0)), 1)
+        self.check(BinaryOperator('|', IntegerLiteral(1), IntegerLiteral(1)), 1)
         self.check(BinaryOperator('<', IntegerLiteral(0), IntegerLiteral(1)), 1)
         self.check(BinaryOperator('<', IntegerLiteral(1), IntegerLiteral(1)), 0)
         self.check(BinaryOperator('<', IntegerLiteral(1), IntegerLiteral(0)), 0)

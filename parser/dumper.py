@@ -17,12 +17,6 @@ class Dumper(Visitor):
         # be superfluous.
         return "(%s %s %s)" % (binop.left.accept(self), binop.op, binop.right.accept(self))
 
-    @visitor(LogicalOperator)
-    def visit(self, logop):
-        # Always use parentheses to reflect grouping and associativity, even if they may
-        # be superfluous.
-        return "(%s %s %s)" % (logop.left.accept(self), logop.op, logop.right.accept(self))
-
     @visitor(IfThenElse)
     def visit(self, ite):
         return "if %s then %s else %s" % (ite.condition.accept(self),

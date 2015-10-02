@@ -9,13 +9,15 @@ class Evaluator:
     def visit(self, int):
         return int.intValue
 
-    @visitor(LogicalOperator)
-    def visit(self, logop):
-        op = logop.op
-        left = logop.left.accept(self)
+
+    @visitor(BinaryOperator)
+    def visit(self, binop):
+        left = binop.left.accept(self)
+        op = binop.op
+        # short-circuit
         if op == '&':
             if left == 1:
-                right = logop.right.accept(self)
+                right = binop.right.accept(self)
                 if right == 1:
                     return 1
             return 0
@@ -23,15 +25,13 @@ class Evaluator:
             if left == 1:
                 return 1
             else:
-                right = logop.right.accept(self)
+                right = binop.right.accept(self)
                 if right == 1:
                    return 1
             return 0
 
-    @visitor(BinaryOperator)
-    def visit(self, binop):
-        left, right = binop.left.accept(self), binop.right.accept(self)
-        op = binop.op
+        # non short-circuit operators
+        right = binop.right.accept(self)
         if op == '+':
             return left + right
         elif op == '*':
