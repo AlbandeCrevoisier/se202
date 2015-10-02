@@ -17,6 +17,52 @@ class Evaluator:
             return left + right
         elif op == '*':
             return left * right
+        elif op == '-':
+            return left - right 
+        elif op == '/':
+            return left // right 
+        # True = 1, False = 0
+        # thus left * right would be right, but not readable. Possible optim ?
+        elif op == '&':
+            if left == 1 and right == 1:
+                return 1
+            else:
+                return 0
+        elif op == '|':
+            if left == 1 or right == 1:
+                return 1
+            else:
+                return 0
+        elif op == '<':
+            if (left < right):
+                return 1
+            else:
+                return 0
+        elif op == '<=':
+            if (left <= right):
+                return 1
+            else:
+                return 0
+        elif op == '>':
+            if (left > right):
+                return 1
+            else:
+                return 0
+        elif op == '>=':
+            if (left >= right):
+                return 1
+            else:
+                return 0
+        elif op == '=':
+            if (left == right):
+                return 1
+            else:
+                return 0
+        elif op == '<>':
+            if (left != right):
+                return 1
+            else:
+                return 0
         else:
             raise SyntaxError("unknown operator %s" % op)
 
