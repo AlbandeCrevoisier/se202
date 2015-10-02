@@ -35,6 +35,16 @@ class BinaryOperator(Node):
         self.children = [left, right]
 
 
+class LogicalOperator(Node):
+
+    def __init__(self, op, left, right):
+        super().__init__()
+        self.op = op
+        self.left = left
+        self.right = right
+        self.children = [left, right]
+
+
 class Let(Node):
 
     def __init__(self, decls, exps):

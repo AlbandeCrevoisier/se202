@@ -9,6 +9,25 @@ class Evaluator:
     def visit(self, int):
         return int.intValue
 
+    @visitor(LogicalOperator)
+    def visit(self, logop):
+        op = logop.op
+        left = logop.left.accept(self)
+        if op == '&':
+            if left == 1:
+                right = logop.right.accept(self)
+                if right == 1:
+                    return 1
+            return 0
+        elif op == '|':
+            if left == 1:
+                return 1
+            else:
+                right = logop.right.accept(self)
+                if right == 1:
+                   return 1
+            return 0
+
     @visitor(BinaryOperator)
     def visit(self, binop):
         left, right = binop.left.accept(self), binop.right.accept(self)
@@ -21,18 +40,6 @@ class Evaluator:
             return left - right 
         elif op == '/':
             return left // right 
-        # True = 1, False = 0
-        # thus left * right would be right, but not readable. Possible optim ?
-        elif op == '&':
-            if left == 1 and right == 1:
-                return 1
-            else:
-                return 0
-        elif op == '|':
-            if left == 1 or right == 1:
-                return 1
-            else:
-                return 0
         elif op == '<':
             if (left < right):
                 return 1

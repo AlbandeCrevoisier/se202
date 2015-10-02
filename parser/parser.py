@@ -30,10 +30,13 @@ def p_expression_binop(p):
                   | expression SUP expression
                   | expression SUPOREQ expression
                   | expression EQ expression
-                  | expression DIFF expression
-                  | expression AND expression
-                  | expression OR expression'''
+                  | expression DIFF expression'''
     p[0] = BinaryOperator(p[2], p[1], p[3])
+
+def p_expression_logop(p):
+    '''expression : expression AND expression
+                  | expression OR expression'''
+    p[0] = LogicalOperator(p[2], p[1], p[3])
 
 def p_expression_parentheses(p):
     'expression : LPAREN expression RPAREN'

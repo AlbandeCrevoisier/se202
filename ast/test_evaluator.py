@@ -1,7 +1,7 @@
 import unittest
 
 from ast.evaluator import Evaluator
-from ast.nodes import IntegerLiteral, BinaryOperator
+from ast.nodes import IntegerLiteral, BinaryOperator, IfThenElse, LogicalOperator
 from parser.parser import parse
 
 class TestEvaluator(unittest.TestCase):
@@ -22,14 +22,14 @@ class TestEvaluator(unittest.TestCase):
         self.check(BinaryOperator('-', IntegerLiteral(10), IntegerLiteral(1)), 9)
         self.check(BinaryOperator('/', IntegerLiteral(42), IntegerLiteral(7)), 6)
         self.check(BinaryOperator('/', IntegerLiteral(42), IntegerLiteral(5)), 8)
-        self.check(BinaryOperator('&', IntegerLiteral(0), IntegerLiteral(0)), 0)
-        self.check(BinaryOperator('&', IntegerLiteral(0), IntegerLiteral(1)), 0)
-        self.check(BinaryOperator('&', IntegerLiteral(1), IntegerLiteral(0)), 0)
-        self.check(BinaryOperator('&', IntegerLiteral(1), IntegerLiteral(1)), 1)
-        self.check(BinaryOperator('|', IntegerLiteral(0), IntegerLiteral(0)), 0)
-        self.check(BinaryOperator('|', IntegerLiteral(0), IntegerLiteral(1)), 1)
-        self.check(BinaryOperator('|', IntegerLiteral(1), IntegerLiteral(0)), 1)
-        self.check(BinaryOperator('|', IntegerLiteral(1), IntegerLiteral(1)), 1)
+        self.check(LogicalOperator('&', IntegerLiteral(0), IntegerLiteral(0)), 0)
+        self.check(LogicalOperator('&', IntegerLiteral(0), IntegerLiteral(1)), 0)
+        self.check(LogicalOperator('&', IntegerLiteral(1), IntegerLiteral(0)), 0)
+        self.check(LogicalOperator('&', IntegerLiteral(1), IntegerLiteral(1)), 1)
+        self.check(LogicalOperator('|', IntegerLiteral(0), IntegerLiteral(0)), 0)
+        self.check(LogicalOperator('|', IntegerLiteral(0), IntegerLiteral(1)), 1)
+        self.check(LogicalOperator('|', IntegerLiteral(1), IntegerLiteral(0)), 1)
+        self.check(LogicalOperator('|', IntegerLiteral(1), IntegerLiteral(1)), 1)
         self.check(BinaryOperator('<', IntegerLiteral(0), IntegerLiteral(1)), 1)
         self.check(BinaryOperator('<', IntegerLiteral(1), IntegerLiteral(1)), 0)
         self.check(BinaryOperator('<', IntegerLiteral(1), IntegerLiteral(0)), 0)
@@ -47,6 +47,9 @@ class TestEvaluator(unittest.TestCase):
         self.check(BinaryOperator('<>', IntegerLiteral(0), IntegerLiteral(1)), 1)
         self.check(BinaryOperator('<>', IntegerLiteral(1), IntegerLiteral(1)), 0)
 
+    def test_ifThenElse(self):
+        ite = IfThenElse(IntegerLiteral(0), IntegerLiteral(1), IntegerLiteral(2)).accept(Evaluator())
+        self.check(ite, 2)
 
     def test_priorities(self):
         self.check(BinaryOperator('+', IntegerLiteral(1), BinaryOperator('*', IntegerLiteral(2), IntegerLiteral(3))), 7)
@@ -71,6 +74,8 @@ class TestEvaluator(unittest.TestCase):
         self.parse_check('3 / 2 - 1', 0)
         #
         self.parse_check('0 = 0 = 0', 0)
+        self.parse_check('1 | 2 / 0', 1)
+        self.parse_check('0 & 2 / 0', 0)
 
 
 if __name__ == '__main__':
