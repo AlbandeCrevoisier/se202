@@ -69,6 +69,8 @@ class TestEvaluator(unittest.TestCase):
         self.parse_check('3 * 2 - 1', 5)
         self.parse_check('1 - 2 / 3', 1)
         self.parse_check('3 / 2 - 1', 0)
+        #
+        self.parse_check('0 = 0 = 0', 0)
 
 
 if __name__ == '__main__':
