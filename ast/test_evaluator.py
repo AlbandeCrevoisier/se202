@@ -30,6 +30,22 @@ class TestEvaluator(unittest.TestCase):
         self.check(BinaryOperator('|', IntegerLiteral(0), IntegerLiteral(1)), 1)
         self.check(BinaryOperator('|', IntegerLiteral(1), IntegerLiteral(0)), 1)
         self.check(BinaryOperator('|', IntegerLiteral(1), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('<', IntegerLiteral(0), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('<', IntegerLiteral(1), IntegerLiteral(1)), 0)
+        self.check(BinaryOperator('<', IntegerLiteral(1), IntegerLiteral(0)), 0)
+        self.check(BinaryOperator('<=', IntegerLiteral(0), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('<=', IntegerLiteral(1), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('<=', IntegerLiteral(1), IntegerLiteral(0)), 0)
+        self.check(BinaryOperator('>', IntegerLiteral(0), IntegerLiteral(1)), 0)
+        self.check(BinaryOperator('>', IntegerLiteral(1), IntegerLiteral(1)), 0)
+        self.check(BinaryOperator('>', IntegerLiteral(1), IntegerLiteral(0)), 1)
+        self.check(BinaryOperator('>=', IntegerLiteral(0), IntegerLiteral(1)), 0)
+        self.check(BinaryOperator('>=', IntegerLiteral(1), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('>=', IntegerLiteral(1), IntegerLiteral(0)), 1)
+        self.check(BinaryOperator('=', IntegerLiteral(0), IntegerLiteral(1)), 0)
+        self.check(BinaryOperator('=', IntegerLiteral(1), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('<>', IntegerLiteral(0), IntegerLiteral(1)), 1)
+        self.check(BinaryOperator('<>', IntegerLiteral(1), IntegerLiteral(1)), 0)
 
 
     def test_priorities(self):
