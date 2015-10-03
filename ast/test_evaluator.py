@@ -49,7 +49,7 @@ class TestEvaluator(unittest.TestCase):
         self.check(BinaryOperator('<>', IntegerLiteral(1), IntegerLiteral(1)), 0)
 
     def test_ifThenElse(self):
-        self.check(IfThenElse(IntegerLiteral(42), IntegerLiteral(2), IntegerLiteral(3)), 2)
+        self.check(IfThenElse(IntegerLiteral(1), IntegerLiteral(2), IntegerLiteral(3)), 2)
         self.check(IfThenElse(IntegerLiteral(0), IntegerLiteral(2), IntegerLiteral(3)), 3)
 
     def test_priorities(self):
@@ -64,7 +64,7 @@ class TestEvaluator(unittest.TestCase):
     def test_precedence(self):
         self.parse_check('1 + 2 * 3', 7)
         self.parse_check('2 * 3 + 1', 7)
-        
+
     def test_precedence_(self):
         self.parse_check('1 + 2 - 3', 0)
         self.parse_check('2 - 3 + 1', 0)
@@ -78,6 +78,8 @@ class TestEvaluator(unittest.TestCase):
         self.parse_check('1 | 2 / 0', 1) # short-circuit
         self.parse_check('0 & 2 / 0', 0)
         self.parse_check('1 & 1 | 0 & 0', 1)
+        self.parse_check('if 1 then 2 else 3 / 0', 2)
+        self.parse_check('if 0 then 2 / 0 else 3', 3)
 
 
 if __name__ == '__main__':

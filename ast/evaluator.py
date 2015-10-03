@@ -75,13 +75,13 @@ class Evaluator:
 
     @visitor(IfThenElse)
     def visit(self, ite):
+        # As of now, else_part is compulsory.
         condition = ite.condition.accept(self)
-        then_part = ite.then_part.accept(self)
-        else_part = ite.else_part.accept(self)
-        # as of now, else_part is compulsory
         if (condition):
+            then_part = ite.then_part.accept(self)
             return then_part
-        elif (else_part != None):
+        elif (ite.else_part != None):
+            else_part = ite.else_part.accept(self)
             return else_part
         else:
             return None
