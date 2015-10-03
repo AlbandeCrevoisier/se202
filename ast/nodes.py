@@ -50,6 +50,7 @@ class Identifier(Node):
         super().__init__()
         self.name = name
         self.decl = None
+        self.depth = None
 
 
 class IfThenElse(Node):
@@ -105,4 +106,4 @@ class FunCall(Node):
         super().__init__()
         self.identifier = identifier
         self.params = params
-        self.children = params
+        self.children = [identifier] + params

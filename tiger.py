@@ -15,6 +15,10 @@ parser.add_option("-e", "--eval",
                   help="evaluate input file to output",
                   action="store_true", default=False,
                   dest="eval")
+parser.add_option("-b", "--bind",
+                  help="invoke the binder",
+                  action="store_true", default=False,
+                  dest="bind")
 parser.usage = """%prog [options] [file]"""
 parser.description = "Compile a Tiger program (or standard input)"
 
@@ -30,9 +34,13 @@ fd.close()
 
 tree = parse(content)
 
+if options.bind:
+    from semantics.binder import Binder
+    tree.accept(Binder())
+
 if options.dump:
     from parser.dumper import Dumper
-    print(tree.accept(Dumper()))
+    print(tree.accept(Dumper(options.bind)))
 
 if options.eval:
     from ast.evaluator import Evaluator
