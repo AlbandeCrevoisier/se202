@@ -17,6 +17,8 @@ class TestEvaluator(unittest.TestCase):
 
     def test_basic_operator(self):
         self.check(BinaryOperator('+', IntegerLiteral(10), IntegerLiteral(20)), 30)
+
+    def test_binop(self):
         self.check(BinaryOperator('*', IntegerLiteral(6), IntegerLiteral(7)), 42)
         self.check(BinaryOperator('-', IntegerLiteral(10), IntegerLiteral(1)), 9)
         self.check(BinaryOperator('/', IntegerLiteral(42), IntegerLiteral(7)), 6)
@@ -47,7 +49,7 @@ class TestEvaluator(unittest.TestCase):
         self.check(BinaryOperator('<>', IntegerLiteral(1), IntegerLiteral(1)), 0)
 
     def test_ifThenElse(self):
-        self.check(IfThenElse(IntegerLiteral(1), IntegerLiteral(2), IntegerLiteral(3)), 2)
+        self.check(IfThenElse(IntegerLiteral(42), IntegerLiteral(2), IntegerLiteral(3)), 2)
         self.check(IfThenElse(IntegerLiteral(0), IntegerLiteral(2), IntegerLiteral(3)), 3)
 
     def test_priorities(self):
@@ -62,6 +64,8 @@ class TestEvaluator(unittest.TestCase):
     def test_precedence(self):
         self.parse_check('1 + 2 * 3', 7)
         self.parse_check('2 * 3 + 1', 7)
+        
+    def test_precedence_(self):
         self.parse_check('1 + 2 - 3', 0)
         self.parse_check('2 - 3 + 1', 0)
         self.parse_check('1 + 2 / 3', 1)
@@ -73,6 +77,7 @@ class TestEvaluator(unittest.TestCase):
         self.parse_check('0 = 0 = 0', 0)
         self.parse_check('1 | 2 / 0', 1) # short-circuit
         self.parse_check('0 & 2 / 0', 0)
+        self.parse_check('1 & 1 | 0 & 0', 1)
 
 
 if __name__ == '__main__':
