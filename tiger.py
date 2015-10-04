@@ -7,6 +7,10 @@ from parser.parser import parse
 import sys
 
 parser = OptionParser()
+parser.add_option("-b", "--bind",
+                  help="invoke the binder",
+                  action="store_true", default=False,
+                  dest="bind")
 parser.add_option("-d", "--dump",
                   help="dump input file to output",
                   action="store_true", default=False,
@@ -19,10 +23,6 @@ parser.add_option("-e", "--eval",
                   help="evaluate input file to output",
                   action="store_true", default=False,
                   dest="eval")
-parser.add_option("-b", "--bind",
-                  help="invoke the binder",
-                  action="store_true", default=False,
-                  dest="bind")
 parser.usage = """%prog [options] [file]"""
 parser.description = "Compile a Tiger program (or standard input)"
 
