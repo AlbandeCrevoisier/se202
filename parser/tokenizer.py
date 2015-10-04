@@ -11,6 +11,7 @@ keywords = {'array': 'ARRAY',
             'function': 'FUNCTION',
             'if': 'IF',
             'in': 'IN',
+            'int': 'INT',
             'let': 'LET',
             'nil': 'NIL',
             'of': 'OF',
@@ -22,14 +23,17 @@ keywords = {'array': 'ARRAY',
 
 # List of tokens that can be recognized and are handled by the current
 # grammar rules.
-tokens = ('END', 'IN', 'LET', 'VAR',
-          'PLUS', 'TIMES', 'MINUS', 'DIV',
+tokens = ('PLUS', 'TIMES', 'MINUS', 'DIV',
           'INF', 'INFOREQ', 'SUP', 'SUPOREQ', 'EQ', 'DIFF',
           'AND', 'OR',
           'COMMA', 'SEMICOLON',
           'LPAREN', 'RPAREN',
           'NUMBER', 'ID',
-          'COLON', 'ASSIGN') + ('IF', 'THEN', 'ELSE')
+          'COLON', 'ASSIGN',
+          'SLCOMMENT') \
+          + ('IF', 'THEN', 'ELSE') \
+          + ('LET', 'IN', 'END') \
+          + ('VAR', 'INT')
 
 t_TIMES = r'\*'
 t_DIV = r'\/'
@@ -61,7 +65,7 @@ def t_newline(t):
 # in the tokens list, this is a syntax error pure and simple since we do
 # not know what to do about it.
 def t_ID(t):
-    r'[A-Za-z][A-Za-z\d_]*'
+    r'[A-Za-z][A-Za-z\d_]*'    #Why are leading underscores not allowed ?
     if t.value in keywords:
         t.type = keywords.get(t.value)
         if t.type not in tokens:
@@ -73,6 +77,11 @@ def t_NUMBER(t):
     r'[1-9]\d*|0'
     t.value = int(t.value)
     return t
+
+# Single line comments
+def t_SLCOMMENT(t):
+    r'\/\/.*'
+    pass
 
 def t_error(t):
     raise lex.LexError("unknown token %s" % t.value, t.value)

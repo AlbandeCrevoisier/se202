@@ -30,6 +30,17 @@ class Dumper(Visitor):
         return "if %s then %s else %s" % (ite.condition.accept(self),
                                            ite.then_part.accept(self),
                                            ite.else_part.accept(self))
+
+    @visitor(VarDecl)
+    def visit(self, vardecl):
+        return "var %s : %s := %s" % (vardecl.name.accept(self),
+                                      vardecl.type.accept(self),
+                                      vardecl.exp.accept(self))
+
+    @visitor(Type)
+    def visit(self, type):
+        return "%s" % type.typename
+
     @visitor(Identifier)
     def visit(self, id):
         if self.semantics:

@@ -12,6 +12,7 @@ precedence = (
     ('left', 'TIMES', 'DIV')
 )
 
+
 def p_expression_ifThenElse(p):
 #    '''expression : IF expression THEN expression
 #                  | IF expression THEN expression ELSE expression'''
@@ -45,6 +46,14 @@ def p_expression_number(p):
 def p_expression_identifier(p):
     'expression : ID'
     p[0] = Identifier(p[1])
+
+def p_var_decl_type(p):
+    'expression : VAR ID COLON INT ASSIGN expression'
+    p[0] = VarDecl(Identifier(p[2]), Type(p[4]), p[6])
+
+def p_var_decl_notype(p):
+    'expression : VAR ID ASSIGN expression'
+    p[0] = VarDecl(Identifier(p[2]), Type('int'), p[4])
 
 def p_error(p):
     import sys
