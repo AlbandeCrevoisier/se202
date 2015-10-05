@@ -47,12 +47,22 @@ def p_expression_identifier(p):
     'expression : ID'
     p[0] = Identifier(p[1])
 
+def p_let(p):
+    'expression : LET statement IN expression END'
+    p[0] = Let(
+
+def p_statement(p):
+    '''statement : decl_var_type
+                 | decl_var_notype
+                 | decl_fun'''
+    
+
 def p_var_decl_type(p):
-    'expression : VAR ID COLON INT ASSIGN expression'
+    'var_decl_type : VAR ID COLON INT ASSIGN expression'
     p[0] = VarDecl(Identifier(p[2]), Type(p[4]), p[6])
 
 def p_var_decl_notype(p):
-    'expression : VAR ID ASSIGN expression'
+    'ar_decl_notype : VAR ID ASSIGN expression'
     p[0] = VarDecl(Identifier(p[2]), Type('int'), p[4])
 
 def p_error(p):
