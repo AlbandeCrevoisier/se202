@@ -12,14 +12,6 @@ precedence = (
     ('left', 'TIMES', 'DIV')
 )
 
-
-def p_expression_ifThenElse(p):
-#    '''expression : IF expression THEN expression
-#                  | IF expression THEN expression ELSE expression'''
-#    p[0] = IfThenElse(p[1], p[3], p[5]=None)
-    'expression : IF expression THEN expression ELSE expression'
-    p[0] = IfThenElse(p[2], p[4], p[6])
-
 def p_expression_binop(p):
     '''expression : expression PLUS expression
                   | expression TIMES expression
@@ -47,23 +39,39 @@ def p_expression_identifier(p):
     'expression : ID'
     p[0] = Identifier(p[1])
 
-#def p_let(p):
-#    'expression : LET statement IN expression END'
-#    p[0] = Let(
+def p_expression_ifThenElse(p):
+#    '''expression : IF expression THEN expression
+#                  | IF expression THEN expression ELSE expression'''
+#    p[0] = IfThenElse(p[1], p[3], p[5]=None)
+    'expression : IF expression THEN expression ELSE expression'
+    p[0] = IfThenElse(p[2], p[4], p[6])
 
-#def p_statement(p):
-#    '''statement : decl_var_type
-#                 | decl_var_notype
-#                 | decl_fun'''
+
+def p_let(p):
+    'expression : LET decls IN expression END'
+    p[0] = Let(p[2], p[4])
+
+def p_decls(p):
+    '''decls : decl
+             | decls decl'''
+    if (len(p) == 1):
+        p[0] = p[1]
+    else:
+        p[0] = p[1], p[2]
+
+
+def p_decl(p):
+    '''decl : vardecl
+            | fundecl'''
     
 
-#def p_var_decl_type(p):
-#    'var_decl_type : VAR ID COLON INT ASSIGN expression'
-#    p[0] = VarDecl(Identifier(p[2]), Type(p[4]), p[6])
+def p_var_decl_type(p):
+    'vardecl : VAR ID COLON INT ASSIGN expression'
+    p[0] = VarDecl(Identifier(p[2]), Type(p[4]), p[6])
 
-#def p_var_decl_notype(p):
-#    'ar_decl_notype : VAR ID ASSIGN expression'
-#    p[0] = VarDecl(Identifier(p[2]), Type('int'), p[4])
+def p_var_decl_notype(p):
+    'vardecl : VAR ID ASSIGN expression'
+    p[0] = VarDecl(Identifier(p[2]), Type(None), p[4])
 
 def p_error(p):
     import sys
