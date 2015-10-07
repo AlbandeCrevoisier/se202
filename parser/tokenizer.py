@@ -1,6 +1,6 @@
 import ply.lex as lex
 
-# List of keywords. Each keyword will be return as a token of a specific
+# List of keywords. Each keyword will be returned as a token of a specific
 # type, which makes it easier to match it in grammatical rules.
 keywords = {'array': 'ARRAY',
             'break': 'BREAK',
@@ -30,10 +30,10 @@ tokens = ('PLUS', 'TIMES', 'MINUS', 'DIV',
           'LPAREN', 'RPAREN',
           'NUMBER', 'ID',
           'COLON', 'ASSIGN',
-          'SLCOMMENT') \
+          'SLCOMMENT', 'LCOMMENT', 'RCOMMENT') \
           + ('IF', 'THEN', 'ELSE') \
           + ('LET', 'IN', 'END') \
-          + ('VAR', 'INT')
+          + ('FUNCTION', 'VAR', 'INT')
 
 t_TIMES = r'\*'
 t_DIV = r'\/'
