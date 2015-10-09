@@ -54,7 +54,7 @@ def p_decls(p):
     '''decls : decl
              | decls decl'''
     if (len(p) == 2):
-        p[0] = [p[1]]
+        p[0] = p[1]
     else:
         p[0] = p[1] + p[2]
 
@@ -67,9 +67,9 @@ def p_vardecl(p):
     '''vardecl : VAR ID COLON INT ASSIGN expression
                | VAR ID ASSIGN expression'''
     if (len(p) == 7):
-        p[0] = VarDecl(Identifier(p[2]), Type(p[4]), p[6])
+        p[0] = VarDecl(p[2], Type(p[4]), p[6])
     else:
-        p[0] = VarDecl(Identifier(p[2]), None, p[4])
+        p[0] = VarDecl(p[2], None, p[4])
 
 def p_params(p):
     '''params :
@@ -98,7 +98,7 @@ def p_expressions(p):
     '''expressions : expression
                    | expressions SEMICOLON expression'''
     if (len(p) == 2):
-        p[0] = [p[1]]
+        p[0] = p[1]
     else:
         p[0] = p[1] + p[2]
 

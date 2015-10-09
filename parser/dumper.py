@@ -31,7 +31,14 @@ class Dumper(Visitor):
 
     @visitor(Let)
     def visit(self, let):
-        self
+        ret_str = "let "
+        for decl in let.decls:
+            ret_str += decl.accept(self)
+        ret_str += "in "
+        for exp in let.exps:
+            ret_str += exp.accept(self)
+        ret_str += " end"
+        return ret_str
     
     @visitor(Identifier)
     def visit(self, id):
@@ -51,6 +58,6 @@ class Dumper(Visitor):
     @visitor(VarDecl)
     def visit(self, vdecl):
         if (vdecl.type == None):
-            return "var %s := %s" % (vdecl.name, vdecl.exp)
+            return "var %s := %s" % (vdecl.name, vdecl.exp.accept(self))
         else:
-            return "var %s : %s %s" % (vdecl.name, vdecl.type, vdecl.exp)
+            return "var %s : %s %s" % (vdecl.name, vdecl.type.accept(self), vdecl.exp)
