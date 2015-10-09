@@ -60,4 +60,15 @@ class Dumper(Visitor):
         if (vdecl.type == None):
             return "var %s := %s" % (vdecl.name, vdecl.exp.accept(self))
         else:
-            return "var %s : %s %s" % (vdecl.name, vdecl.type.accept(self), vdecl.exp)
+            return "var %s : %s %s" % (vdecl.name, vdecl.type.accept(self),
+                                                   vdecl.exp.accept(self))
+
+    @visitor(FunDecl)
+    def visit(self, fdecl):
+        ret_str = "function %s(" % fdecl.name
+        for arg in fdecl.args:
+            ret_str += arg.accept(self)
+        ret_str += ") "
+        if (fdecl.type != None):
+            ret_str += ": " + decl.type.accept(self) + " "
+        ret_str += fdecl.exp.accept(self)

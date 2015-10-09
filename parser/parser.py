@@ -48,13 +48,13 @@ def p_expression_ifThenElse(p):
 
 def p_let(p):
     'expression : LET decls IN expressions END'
-    p[0] = Let([p[2]], [p[4]])
+    p[0] = Let(p[2], p[4])
 
 def p_decls(p):
     '''decls : decl
              | decls decl'''
     if (len(p) == 2):
-        p[0] = p[1]
+        p[0] = [p[1]]
     else:
         p[0] = p[1] + p[2]
 
@@ -71,36 +71,40 @@ def p_vardecl(p):
     else:
         p[0] = VarDecl(p[2], None, p[4])
 
-def p_params(p):
-    '''params :
-                | param
-                | params COMMA param'''
-    if (len(p) == 1):
-        p[0] = []
-    elif (len(p) == 2):
-        p[0] = [p[1]]
-    else:
-        p[0] = p[1] + p[2]
-
-def p_param(p):
-    'param : ID COLON INT'
-    p[0] = VarDecl(Identifier(p[1]), Type(p[3]), None)
-
 def p_fundecl(p):
-    '''fundecl : FUNCTION ID LPAREN params RPAREN COLON INT EQ expression
-               | FUNCTION ID LPAREN params RPAREN EQ expression'''
+    '''fundecl : FUNCTION ID LPAREN args RPAREN COLON INT EQ expression
+               | FUNCTION ID LPAREN args RPAREN EQ expression'''
     if (len(p) == 10):
-        p[0] = FunDecl(Identifier(p[3]), p[5], Type(p[7]), p[8])
+        p[0] = FunDecl(p[3], p[5], Type(p[7]), p[8])
     else:
-        p[0] = FunDecl(Identifier(p[3]), p[5], None, p[7])
+        p[0] = FunDecl(p[3], p[5], None, p[7])
 
-def p_expressions(p):
-    '''expressions : expression
-                   | expressions SEMICOLON expression'''
-    if (len(p) == 2):
+def p_args(p):
+    '''args :
+            | arg
+            | args COMMA arg'''
+    if (len(p) == 1):
+        p[0] = None
+    elif (len(p) == 2):
         p[0] = p[1]
     else:
         p[0] = p[1] + p[2]
+
+def p_arg(p):
+    'arg : ID COLON INT'
+    p[0] = VarDecl(p[1], Type(p[3]), None)
+
+def p_expressions(p):
+    '''expressions : expressionlist
+                   | expressions SEMICOLON expressionlist'''
+    if (len(p) == 2):
+        p[0] = p[1]
+    else:
+        p[0] = [p[1]] + [p[2]]
+
+def p_expressionlist(p):
+    '''expressionlist : expression'''
+    p[0] = [p[1]]
 
 def p_error(p):
     import sys
