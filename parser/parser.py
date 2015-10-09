@@ -47,7 +47,7 @@ def p_expression_ifThenElse(p):
     p[0] = IfThenElse(p[2], p[4], p[6])
 
 def p_let(p):
-    'expression : LET decls IN expression END'
+    'expression : LET decls IN expressions END'
     p[0] = Let(p[2], [p[4]])
 
 def p_decls(p):
@@ -61,6 +61,15 @@ def p_decls(p):
 def p_decl(p):
     '''decl : vardecl
             | fundecl'''
+    p[0] = p[1]
+
+def p_vardecl(p):
+    '''vardecl : VAR ID COLON INT ASSIGN expression
+               | VAR ID ASSIGN expression'''
+    if (len(p) == 7):
+        p[0] = VarDecl(Identifier(p[2]), Type(p[4]), p[6])
+    else:
+        p[0] = VarDecl(Identifier(p[2]), None, p[4])
 
 def p_params(p):
     '''params :
@@ -77,14 +86,6 @@ def p_param(p):
     'param : ID COLON INT'
     p[0] = VarDecl(Identifier(p[1]), Type(p[3]), None)
 
-def p_vardecl(p):
-    '''vardecl : VAR ID COLON INT ASSIGN expression
-               | VAR ID ASSIGN expression'''
-    if (len(p) == 7):
-        p[0] = VarDecl(Identifier(p[2]), Type(p[4]), p[6])
-    else:
-        p[0] = VarDecl(Identifier(p[2]), None, p[4])
-
 def p_fundecl(p):
     '''fundecl : FUNCTION ID LPAREN params RPAREN COLON INT EQ expression
                | FUNCTION ID LPAREN params RPAREN EQ expression'''
@@ -92,6 +93,14 @@ def p_fundecl(p):
         p[0] = FunDecl(Identifier(p[3]), p[5], Type(p[7]), p[8])
     else:
         p[0] = FunDecl(Identifier(p[3]), p[5], None, p[7])
+
+def p_expressions(p):
+    '''expressions : expression
+                   | expressions SEMICOLON expression'''
+    if (len(p) == 2):
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + p[2]
 
 def p_error(p):
     import sys
