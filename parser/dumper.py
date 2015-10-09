@@ -60,7 +60,7 @@ class Dumper(Visitor):
         if (vdecl.type == None):
             return "var %s := %s" % (vdecl.name, vdecl.exp.accept(self))
         else:
-            return "var %s : %s %s" % (vdecl.name, vdecl.type.accept(self),
+            return "var %s : %s :=  %s " % (vdecl.name, vdecl.type.accept(self),
                                                    vdecl.exp.accept(self))
 
     @visitor(FunDecl)
