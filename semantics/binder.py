@@ -68,13 +68,21 @@ class Binder(Visitor):
 
     @visitor(Let)
     def visit(self, let):
-        push_new_scope()
-        depth++
+        self.push_new_scope()
+        self.visit_all(let.children)
+        self.pop_scope()
+        self.depth += 1
 
     @visitor(Identifier)
     def visit(self, id):
-        lookup(id)
+        self.lookup(id)
 
-    @visitor(Decl)
+    @visitor(VarDecl)
     def visit(self, decl):
-        add_binding(decl)
+        self.add_binding(decl)
+
+    @visitor(FunDecl)
+    def visit(self, fdecl):
+        self.add_binding(fdecl)
+        self.push_new_scope()
+        self.depth += 1

@@ -35,16 +35,16 @@ tokens = ('PLUS', 'TIMES', 'MINUS', 'DIV',
           + ('LET', 'IN', 'END') \
           + ('FUNCTION', 'VAR', 'INT')
 
-t_TIMES = r'\*'
-t_DIV = r'\/'
 t_PLUS = r'\+'
 t_MINUS = r'\-' 
-t_INF = r'\<'
-t_INFOREQ = r'\<\='
-t_SUP = r'\>'
-t_SUPOREQ = r'\>\='
+t_TIMES = r'\*'
+t_DIV = r'\/'
 t_EQ = r'\='
 t_DIFF = r'\<\>'
+t_SUP = r'\>'
+t_INF = r'\<'
+t_SUPOREQ = r'\>\='
+t_INFOREQ = r'\<\='
 t_AND = r'\&'
 t_OR = r'\|'
 t_LPAREN = r'\('

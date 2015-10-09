@@ -48,7 +48,7 @@ def p_expression_ifThenElse(p):
 
 def p_let(p):
     'expression : LET decls IN expressions END'
-    p[0] = Let(p[2], [p[4]])
+    p[0] = Let([p[2]], [p[4]])
 
 def p_decls(p):
     '''decls : decl
