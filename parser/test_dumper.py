@@ -7,7 +7,7 @@ class TestDumper(unittest.TestCase):
 
     def parse_dump(self, text):
         tree = parse(text)
-        return tree.accept(Dumper())
+        return tree.accept(Dumper(semantics=False))
 
     def check(self, text, expected):
         self.assertEqual(self.parse_dump(text), expected)

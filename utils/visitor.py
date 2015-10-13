@@ -1,6 +1,6 @@
 # This visitor pattern implementation has been found on Stack Overflow and
 # enhanced by using a default case (use None).
-__author__ = 'Joren Van Severen'
+__author__ = 'Joren Van Severen & Samuel Tardieu'
 
 def _qualname(obj):
     """Get the fully-qualified name of an object (including module)."""
@@ -39,4 +39,4 @@ class Visitor:
 
     def visit_all(self, children):
         """Visit all children in turn unless they are None and return the list of results."""
-        return list(map(lambda x: x.accept(self), filter(lambda x: x is not None, children)))
+        return [x.accept(self) for x in children]
