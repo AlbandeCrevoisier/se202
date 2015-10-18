@@ -75,9 +75,9 @@ def p_fundecl(p):
     '''fundecl : FUNCTION ID LPAREN args RPAREN COLON INT EQ expression
                | FUNCTION ID LPAREN args RPAREN EQ expression'''
     if (len(p) == 10):
-        p[0] = FunDecl(p[3], p[5], Type(p[7]), p[8])
+        p[0] = FunDecl(p[2], p[4], Type(p[7]), p[9])
     else:
-        p[0] = FunDecl(p[3], p[5], None, p[7])
+        p[0] = FunDecl(p[2], p[4], None, p[7])
 
 def p_args(p):
     '''args :
@@ -86,7 +86,7 @@ def p_args(p):
     if (len(p) == 1):
         p[0] = None
     elif (len(p) == 2):
-        p[0] = p[1]
+        p[0] = [p[1]]
     else:
         p[0] = p[1] + p[2]
 

@@ -24,11 +24,8 @@ class Dumper(Visitor):
         # even if they may be superfluous.
         return "(%s %s %s)" % \
                (binop.left.accept(self), binop.op, binop.right.accept(self))
-
-    @visitor(Type)
-    def visit(self, type):
-        return "%s" % type.typename
-
+ 
+ 
     @visitor(Let)
     def visit(self, let):
         ret_str = "let "
@@ -39,7 +36,8 @@ class Dumper(Visitor):
             ret_str += exp.accept(self)
         ret_str += " end"
         return ret_str
-    
+
+
     @visitor(Identifier)
     def visit(self, id):
         if self.semantics:
@@ -49,11 +47,18 @@ class Dumper(Visitor):
             scope_diff = ''
         return '%s%s' % (id.name, scope_diff)
 
+
     @visitor(IfThenElse)
     def visit(self, ite):
         return "if %s then %s else %s" % (ite.condition.accept(self),
                                            ite.then_part.accept(self),
                                            ite.else_part.accept(self))
+
+
+    @visitor(Type)
+    def visit(self, type):
+        return "%s" % type.typename
+
 
     @visitor(VarDecl)
     def visit(self, vdecl):
@@ -62,6 +67,7 @@ class Dumper(Visitor):
         else:
             return "var %s : %s :=  %s " % (vdecl.name, vdecl.type.accept(self),
                                                    vdecl.exp.accept(self))
+
 
     @visitor(FunDecl)
     def visit(self, fdecl):
