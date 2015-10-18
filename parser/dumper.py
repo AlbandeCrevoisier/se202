@@ -31,7 +31,7 @@ class Dumper(Visitor):
         ret_str = "let "
         for decl in let.decls:
             ret_str += decl.accept(self)
-        ret_str += "in "
+        ret_str += " in "
         for exp in let.exps:
             ret_str += exp.accept(self)
         ret_str += " end"

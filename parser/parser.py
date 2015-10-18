@@ -56,7 +56,7 @@ def p_decls(p):
     if (len(p) == 2):
         p[0] = [p[1]]
     else:
-        p[0] = p[1] + p[2]
+        p[0] = p[1] + [p[2]]
 
 def p_decl(p):
     '''decl : vardecl
@@ -88,7 +88,7 @@ def p_args(p):
     elif (len(p) == 2):
         p[0] = [p[1]]
     else:
-        p[0] = p[1] + p[2]
+        p[0] = p[1] + [p[2]]
 
 def p_arg(p):
     'arg : ID COLON INT'
