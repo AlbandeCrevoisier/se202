@@ -32,9 +32,6 @@ parser.description = "Compile a Tiger program (or standard input)"
 
 (options, args) = parser.parse_args()
 
-# If we need the typer, we need the binder as well
-options.bind |= options.type
-
 if len(args) > 1 or (options.expression and len(args) > 0):
     parser.print_help(file=sys.stderr)
     sys.exit(1)
@@ -48,13 +45,12 @@ else:
 
 tree = parse(content)
 
-if options.bind:
+if options.bind or options.type:
     from semantics.binder import Binder
     tree.accept(Binder())
-
-if options.type:
-    from typer.typer import Typer
-    Typer().run(tree, True)
+    if options.type:
+        from typer.typer import Typer
+        Typer().run(tree, True)
 
 if options.dump:
     from parser.dumper import Dumper
