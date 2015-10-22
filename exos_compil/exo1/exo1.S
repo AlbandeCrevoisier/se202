@@ -9,4 +9,4 @@
 	BGT true
 	MOV R0, #20		; (a > b) false
 true:
-
+	BX LR

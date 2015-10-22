@@ -12,4 +12,4 @@ forbegin:
 	ADD	[R1], [R1], #1	; i++
 	B	forbegin
 forend:
-
+	BX LR
