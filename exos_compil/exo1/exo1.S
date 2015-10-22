@@ -8,5 +8,5 @@
 	MOV R0, #10		; (a > b) true
 	BGT true
 	MOV R0, #20		; (a > b) false
-true
+true:
 
