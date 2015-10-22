@@ -1,0 +1,4 @@
+Since I do no know ARM assembly, I do not know how to manage 8 bits words.
+Thus, I used a 32 bits word but stopped the loop if the index reaches 255 in
+order to simulate a 8 bits word. Not a good solution, but the best I could
+come up with. Especially since I am still somewhere in the middle of step 2...
