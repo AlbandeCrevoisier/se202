@@ -46,6 +46,10 @@ def p_expression_ifThenElse(p):
     'expression : IF expression THEN expression ELSE expression'
     p[0] = IfThenElse(p[2], p[4], p[6])
 
+def p_type(p):
+    'type : INT'
+    p[0] = Type(p[1])
+
 def p_let(p):
     'expression : LET decls IN expressions END'
     p[0] = Let(p[2], p[4])
@@ -64,18 +68,18 @@ def p_decl(p):
     p[0] = p[1]
 
 def p_vardecl(p):
-    '''vardecl : VAR ID COLON INT ASSIGN expression
+    '''vardecl : VAR ID COLON type ASSIGN expression
                | VAR ID ASSIGN expression'''
     if (len(p) == 7):
-        p[0] = VarDecl(p[2], Type(p[4]), p[6])
+        p[0] = VarDecl(p[2], p[4], p[6])
     else:
         p[0] = VarDecl(p[2], None, p[4])
 
 def p_fundecl(p):
-    '''fundecl : FUNCTION ID LPAREN args RPAREN COLON INT EQ expression
+    '''fundecl : FUNCTION ID LPAREN args RPAREN COLON type EQ expression
                | FUNCTION ID LPAREN args RPAREN EQ expression'''
     if (len(p) == 10):
-        p[0] = FunDecl(p[2], p[4], Type(p[7]), p[9])
+        p[0] = FunDecl(p[2], p[4], p[7], p[9])
     else:
         p[0] = FunDecl(p[2], p[4], None, p[7])
 
