@@ -83,7 +83,7 @@ class Dumper(Visitor):
     @visitor(FunDecl)
     def visit(self, fdecl):
         esc_str = ""
-        if (vdecl.escapes == True):
+        if (fdecl.escapes == True):
             esc_str = "/*e*/"
         ret_str = "function %s(" % fdecl.name
         if (len(fdecl.args) == 1):
