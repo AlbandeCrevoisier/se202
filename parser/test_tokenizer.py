@@ -34,6 +34,11 @@ class TestLexer(unittest.TestCase):
         self.check('VAR', 'var')
         self.check_end()
 
+    def test_function(self):
+        lexer.input("function")
+        self.check('FUNCTION', 'function')
+        self.check_end()
+
     def test_identifier(self):
         lexer.input("foobar")
         self.check('ID', 'foobar')

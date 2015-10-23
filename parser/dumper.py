@@ -29,7 +29,7 @@ class Dumper(Visitor):
     @visitor(Let)
     def visit(self, let):
         ret_str = "let "
-        if (let.decls != []):
+        if (len(let.decls) != 0):
             for decl in let.decls:
                 ret_str += decl.accept(self)
         ret_str += " in "
@@ -75,10 +75,11 @@ class Dumper(Visitor):
     @visitor(FunDecl)
     def visit(self, fdecl):
         ret_str = "function %s(" % fdecl.name
-        if (fdecl.args != None):
+        if (len(fdecl.args) != 0):
             for arg in fdecl.args:
                 ret_str += arg.accept(self)
         ret_str += ") "
         if (fdecl.type != None):
             ret_str += ": " + fdecl.type.accept(self) + " "
         ret_str += fdecl.exp.accept(self)
+        return ret_str
