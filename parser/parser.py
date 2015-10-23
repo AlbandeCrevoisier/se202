@@ -111,6 +111,10 @@ def p_expressions(p):
     else:
         p[0] = p[1] + [p[3]]
 
+def p_funcall(p):
+    'expression : ID LPAREN args RPAREN'
+    p[0] = FunCall(Identifier(p[1]), p[3])
+
 def p_error(p):
     import sys
     sys.stderr.write("no way to analyze %s\n" % p)

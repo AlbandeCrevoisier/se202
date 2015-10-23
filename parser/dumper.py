@@ -91,3 +91,17 @@ class Dumper(Visitor):
         ret_str += "= "
         ret_str += fdecl.exp.accept(self)
         return ret_str
+
+    @visitor(FunCall)
+    def visit(self, fcall):
+        ret_str = fcall.identifier.accept(self) + "("
+        if (len(fcall.params) == 1):
+            for param in fcall.params:
+                ret_str += "%s : %s" % (param.name, param.type.accept(self))
+        elif (len(fcall.params) != 0):
+            for param in fcall.params:
+                ret_str += "%s : %s" % (param.name, param.type.accept(self))
+                if (param != fcall.params[-1]):
+                    ret_str += ", "
+        ret_str += ") "
+        return ret_str
