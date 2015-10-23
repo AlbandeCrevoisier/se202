@@ -107,3 +107,12 @@ class Binder(Visitor):
         self.visit_all(fdecl.children)
         self.depth -= 1
         self.pop_scope()
+
+    @visitor(FunCall)
+    def visit(self, fcall):
+        assert isinstance(fcall, FunCall), \
+            "Function call must be a FunCall instance."
+        fdecl = self.lookup(fcall.identifier)
+        if (len(fdecl.args) != len(fcall.params)):
+            raise BindException(
+                "Wrong number of parameters when calling %s" % fdecl.name)
