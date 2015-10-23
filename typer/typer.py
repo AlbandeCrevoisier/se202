@@ -181,5 +181,6 @@ class Typer(Visitor):
 
     @visitor(Assignment)
     def visit(self, a):
+        self.visit_all(a.children)
         self.merge(a.identifier, a.exp)
         self.merge(a, self.void_type)

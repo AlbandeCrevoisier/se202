@@ -29,11 +29,14 @@ class Dumper(Visitor):
     @visitor(Let)
     def visit(self, let):
         ret_str = "let "
-        for decl in let.decls:
-            ret_str += decl.accept(self)
-        ret_str += " in "
+        if (len(let.decls) != 0):
+            for decl in let.decls:
+                ret_str += decl.accept(self) + " "
+        ret_str += "in "
         for exp in let.exps:
             ret_str += exp.accept(self)
+            if (exp != let.exps[-1]):
+                ret_str += ", "
         ret_str += " end"
         return ret_str
 
@@ -64,6 +67,8 @@ class Dumper(Visitor):
     def visit(self, vdecl):
         if (vdecl.type == None):
             return "var %s := %s" % (vdecl.name, vdecl.exp.accept(self))
+        elif (vdecl.exp == None):
+            return "var %s : %s" % (vdecl.name, vdecl.type.accept(self))
         else:
             return "var %s : %s :=  %s " % (vdecl.name, vdecl.type.accept(self),
                                                    vdecl.exp.accept(self))
@@ -72,9 +77,17 @@ class Dumper(Visitor):
     @visitor(FunDecl)
     def visit(self, fdecl):
         ret_str = "function %s(" % fdecl.name
-        for arg in fdecl.args:
-            ret_str += arg.accept(self)
+        if (len(fdecl.args) == 1):
+            for arg in fdecl.args:
+                ret_str += "%s : %s" % (arg.name, arg.type.accept(self))
+        elif (len(fdecl.args) != 0):
+            for arg in fdecl.args:
+                ret_str += "%s : %s" % (arg.name, arg.type.accept(self))
+                if (arg != fdecl.args[-1]):
+                    ret_str += ", "
         ret_str += ") "
         if (fdecl.type != None):
-            ret_str += ": " + decl.type.accept(self) + " "
-        ret_str += fdecl.exp.accept(self)
+            ret_str += ": " + fdecl.type.accept(self) + " "
+        ret_str += "= "
+        ret_str += fdecl.exp.accept(self)[1:-1]
+        return ret_str

@@ -84,27 +84,23 @@ def p_args(p):
             | arg
             | args COMMA arg'''
     if (len(p) == 1):
-        p[0] = None
+        p[0] = []
     elif (len(p) == 2):
         p[0] = [p[1]]
     else:
-        p[0] = p[1] + [p[2]]
+        p[0] = p[1] + [p[3]]
 
 def p_arg(p):
     'arg : ID COLON INT'
     p[0] = VarDecl(p[1], Type(p[3]), None)
 
 def p_expressions(p):
-    '''expressions : expressionlist
-                   | expressions SEMICOLON expressionlist'''
+    '''expressions : expression
+                   | expressions SEMICOLON expression'''
     if (len(p) == 2):
-        p[0] = p[1]
+        p[0] = [p[1]]
     else:
-        p[0] = [p[1]] + [p[2]]
-
-def p_expressionlist(p):
-    '''expressionlist : expression'''
-    p[0] = [p[1]]
+        p[0] = p[1] + [p[3]]
 
 def p_error(p):
     import sys
