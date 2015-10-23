@@ -95,8 +95,9 @@ class Binder(Visitor):
         self.lookup(id)
 
     @visitor(VarDecl)
-    def visit(self, decl):
-        self.add_binding(decl)
+    def visit(self, vdecl):
+        self.visit_all(vdecl.children)
+        self.add_binding(vdecl)
 
     @visitor(FunDecl)
     def visit(self, fdecl):
