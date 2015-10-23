@@ -89,7 +89,6 @@ class Binder(Visitor):
         self.push_new_scope()
         self.visit_all(let.children)
         self.pop_scope()
-        self.depth += 1
 
     @visitor(Identifier)
     def visit(self, id):
@@ -104,3 +103,6 @@ class Binder(Visitor):
         self.add_binding(fdecl)
         self.push_new_scope()
         self.depth += 1
+        self.visit_all(fdecl.children)
+        self.depth -= 1
+        self.pop_scope()
