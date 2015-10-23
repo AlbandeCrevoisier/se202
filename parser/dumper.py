@@ -89,5 +89,5 @@ class Dumper(Visitor):
         if (fdecl.type != None):
             ret_str += ": " + fdecl.type.accept(self) + " "
         ret_str += "= "
-        ret_str += fdecl.exp.accept(self)[1:-1]
+        ret_str += fdecl.exp.accept(self)
         return ret_str
