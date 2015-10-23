@@ -45,7 +45,7 @@ class Dumper(Visitor):
     def visit(self, id):
         if self.semantics:
             diff = id.depth - id.decl.depth
-            scope_diff = "{%d}" % diff if diff else ''
+            scope_diff = "/*%d*/" % diff if diff else ''
         else:
             scope_diff = ''
         return '%s%s' % (id.name, scope_diff)
@@ -65,20 +65,30 @@ class Dumper(Visitor):
 
     @visitor(VarDecl)
     def visit(self, vdecl):
+        esc_str = ""
+        if (vdecl.escapes == True):
+            esc_str = "/*e*/"
         if (vdecl.type == None):
-            return "var %s := %s" % (vdecl.name, vdecl.exp.accept(self))
+            return "var %s%s := %s" % \
+                (vdecl.name, esc_str, vdecl.exp.accept(self))
         elif (vdecl.exp == None):
-            return "var %s : %s" % (vdecl.name, vdecl.type.accept(self))
+            return "var %s%s : %s" % \
+                (vdecl.name, esc_str, vdecl.type.accept(self))
         else:
-            return "var %s : %s :=  %s " % (vdecl.name, vdecl.type.accept(self),
-                                                   vdecl.exp.accept(self))
+            return "var %s%s : %s :=  %s " % \
+                (vdecl.name, esc_str, vdecl.type.accept(self),
+                vdecl.exp.accept(self))
 
 
     @visitor(FunDecl)
     def visit(self, fdecl):
+        esc_str = ""
+        if (vdecl.escapes == True):
+            esc_str = "/*e*/"
         ret_str = "function %s(" % fdecl.name
         if (len(fdecl.args) == 1):
-            ret_str += "%s : %s" % (fdecl.args[0].name, fdecl.args[0].type.accept(self))
+            ret_str += "%s : %s" % \
+                (fdecl.args[0].name, fdecl.args[0].type.accept(self))
         elif (len(fdecl.args) != 0):
             for arg in fdecl.args:
                 ret_str += "%s : %s" % (arg.name, arg.type.accept(self))
