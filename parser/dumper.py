@@ -43,7 +43,7 @@ class Dumper(Visitor):
 
     @visitor(Identifier)
     def visit(self, id):
-        if self.semantics:
+        if (self.semantics and isinstance(id.decl, VarDecl)):
             diff = id.depth - id.decl.depth
             scope_diff = "/*%d*/" % diff if diff else ''
         else:
@@ -82,9 +82,6 @@ class Dumper(Visitor):
 
     @visitor(FunDecl)
     def visit(self, fdecl):
-        esc_str = ""
-        if (fdecl.escapes == True):
-            esc_str = "/*e*/"
         ret_str = "function %s(" % fdecl.name
         if (len(fdecl.args) == 1):
             ret_str += "%s : %s" % \
