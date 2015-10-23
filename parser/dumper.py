@@ -78,8 +78,7 @@ class Dumper(Visitor):
     def visit(self, fdecl):
         ret_str = "function %s(" % fdecl.name
         if (len(fdecl.args) == 1):
-            for arg in fdecl.args:
-                ret_str += "%s : %s" % (arg.name, arg.type.accept(self))
+            ret_str += "%s : %s" % (fdecl.args[0].name, fdecl.args[0].type.accept(self))
         elif (len(fdecl.args) != 0):
             for arg in fdecl.args:
                 ret_str += "%s : %s" % (arg.name, arg.type.accept(self))
@@ -96,12 +95,11 @@ class Dumper(Visitor):
     def visit(self, fcall):
         ret_str = fcall.identifier.accept(self) + "("
         if (len(fcall.params) == 1):
-            for param in fcall.params:
-                ret_str += "%s : %s" % (param.name, param.type.accept(self))
+            ret_str += fcall.params[0].accept(self)
         elif (len(fcall.params) != 0):
             for param in fcall.params:
-                ret_str += "%s : %s" % (param.name, param.type.accept(self))
-                if (param != fcall.params[-1]):
+                ret_str += param.accept(self)
+                if (param != fdecl.params[-1]):
                     ret_str += ", "
         ret_str += ") "
         return ret_str

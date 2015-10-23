@@ -112,8 +112,24 @@ def p_expressions(p):
         p[0] = p[1] + [p[3]]
 
 def p_funcall(p):
-    'expression : ID LPAREN args RPAREN'
+    'expression : ID LPAREN params RPAREN'
     p[0] = FunCall(Identifier(p[1]), p[3])
+
+def p_params(p):
+    '''params :
+              | paramsome'''
+    if (len(p) == 1):
+        p[0] = []
+    else:
+        p[0] =p[1]
+
+def p_paramsome(p):
+    '''paramsome : expression
+                 | paramsome COMMA expression'''
+    if (len(p) == 2):
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[3]]
 
 def p_error(p):
     import sys
