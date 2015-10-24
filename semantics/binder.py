@@ -56,6 +56,7 @@ class Binder(Visitor):
         loop = self.break_stack[-1]
         if loop is None:
             raise BindException("break called outside of loop")
+        return loop
 
     def add_binding(self, decl):
         """Add a binding to the current scope and set the depth for

@@ -45,6 +45,9 @@ class Typer(Visitor):
     as its return value cannot be used, and we might as well consider
     it void."""
 
+    # List of type names that can be declared in Tiger code.
+    declarable_types = ['int']
+
     def __init__(self):
         self.int_type = Type('int')
         self.void_type = Type('void')
@@ -110,7 +113,14 @@ class Typer(Visitor):
 
     @visitor(Identifier)
     def visit(self, i):
+        assert i.decl is not None, \
+          "no declaration for identifier %s" % identifier
         self.merge(i, i.decl)
+
+    @visitor(Type)
+    def visit(self, t):
+        assert t.typename in self.declarable_types, \
+            "type %s is unknown" % t.typename
 
     @visitor(VarDecl)
     def visit(self, decl):
