@@ -69,7 +69,7 @@ class Binder(Visitor):
         decl.depth = self.depth
 
     def lookup(self, identifier):
-        """Return the declaration associated with a identifier, looking
+        """Return the declaration associated with an identifier, looking
         into the closest scope first. If no declaration is found,
         raise an exception. If it is found, the decl and depth field
         for this identifier are set, and the escapes field of the
@@ -97,15 +97,16 @@ class Binder(Visitor):
 
     @visitor(VarDecl)
     def visit(self, vdecl):
-        self.visit_all(vdecl.children)
         self.add_binding(vdecl)
-
+        self.visit_all(vdecl.children)
+        
     @visitor(FunDecl)
     def visit(self, fdecl):
         self.add_binding(fdecl)
         self.push_new_scope()
         self.depth += 1
-        self.visit_all(fdecl.children)
+        self.visit_all(fdecl.args)
+        self.visit_all(fdecl.exp.children)
         self.depth -= 1
         self.pop_scope()
 
@@ -117,3 +118,4 @@ class Binder(Visitor):
         if (len(fdecl.args) != len(fcall.params)):
             raise BindException(
                 "Wrong number of parameters when calling %s" % fdecl.name)
+        self.visit_all(fcall.children)
