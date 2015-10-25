@@ -55,7 +55,7 @@ def p_expressions(p):
     '''expressions :
                    | expression_some'''
     if (len(p) == 1):
-        p[0] = [Type('void')]
+        p[0] = []
     else:
         p[0] = p[1]
 

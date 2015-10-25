@@ -118,9 +118,9 @@ class Dumper(Visitor):
     def visit(self, se):
         if (len(se.exps) == 1):
             return "%s" % self.visit(se.exps[0])
-        ret_str = ""
+        ret_str = "("
         for exp in se.exps:
-            ret_str += "%s" + "%s"
+            ret_str += "%s" % exp.accept(self)
             if (exp != se.exps[-1]):
                 ret_str += "; "
-        return ret_str
+        return ret_str + ")"
