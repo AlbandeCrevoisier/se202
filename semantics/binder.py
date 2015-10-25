@@ -116,9 +116,9 @@ class Binder(Visitor):
 
     @visitor(FunCall)
     def visit(self, fcall):
+        fdecl = self.lookup(fcall.identifier)
         if (not isinstance(fcall.identifier.decl, FunDecl)):
             raise BindException("Function call must be a FunCall instance.")
-        fdecl = self.lookup(fcall.identifier)
         if (len(fdecl.args) != len(fcall.params)):
             raise BindException(
                 "Wrong number of parameters when calling %s" % fdecl.name)
