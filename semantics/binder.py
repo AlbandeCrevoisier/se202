@@ -106,6 +106,10 @@ class Binder(Visitor):
         self.push_new_scope()
         self.depth += 1
         self.visit_all(fdecl.args)
+        if (isinstance(fdecl.exp, Identifier)):
+            self.visit(fdecl.exp)
+        else:
+            self.visit_all(fdecl.exp.children)
         self.visit_all(fdecl.exp.children)
         self.depth -= 1
         self.pop_scope()
