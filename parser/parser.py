@@ -55,8 +55,9 @@ def p_expressions(p):
     '''expressions :
                    | expression_some'''
     if (len(p) == 1):
-        p[0] = Type('void')
-    p[0] = p[1]
+        p[0] = [Type('void')]
+    else:
+        p[0] = p[1]
 
 def p_expression_some(p):
     '''expression_some : expression
