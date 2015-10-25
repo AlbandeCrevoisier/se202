@@ -1,5 +1,10 @@
 import ply.lex as lex
 
+# Declare states.
+states = (
+    ('ccomment', 'exclusive'),
+    )
+
 # List of keywords. Each keyword will be returned as a token of a specific
 # type, which makes it easier to match it in grammatical rules.
 keywords = {'array': 'ARRAY',
@@ -29,8 +34,7 @@ tokens = ('PLUS', 'TIMES', 'MINUS', 'DIV',
           'COMMA', 'SEMICOLON',
           'LPAREN', 'RPAREN',
           'NUMBER', 'ID',
-          'COLON', 'ASSIGN',
-          'SLCOMMENT', 'LCOMMENT', 'RCOMMENT') \
+          'COLON', 'ASSIGN') \
           + ('IF', 'THEN', 'ELSE') \
           + ('LET', 'IN', 'END') \
           + ('FUNCTION', 'VAR', 'INT')
@@ -65,7 +69,7 @@ def t_newline(t):
 # in the tokens list, this is a syntax error pure and simple since we do
 # not know what to do about it.
 def t_ID(t):
-    r'[A-Za-z][A-Za-z\d_]*'    #Why are leading underscores not allowed ?
+    r'[A-Za-z][A-Za-z\d_]*'
     if t.value in keywords:
         t.type = keywords.get(t.value)
         if t.type not in tokens:
@@ -83,7 +87,24 @@ def t_SLCOMMENT(t):
     r'\/\/.*'
     pass
 
-def t_error(t):
+# Enter C comment
+def t_ANY_begin_ccomment(t):
+    r'\/\*'
+    t.lexer.push_state('ccomment')
+
+# Exit C comment
+def t_ccomment_end(t):
+    r'\*\/'
+    t.lexer.pop_state()
+
+# Discard non "/*" or "*/"
+def t_ccomment_CCOMMENT(t):
+    r'(\/ | \*)+'
+    pass
+
+t_ccomment_ignore_DISCARD = r'[^*/]'
+
+def t_ANY_error(t):
     raise lex.LexError("unknown token %s" % t.value, t.value)
 
 lexer = lex.lex()
