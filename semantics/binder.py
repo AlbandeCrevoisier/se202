@@ -97,8 +97,8 @@ class Binder(Visitor):
 
     @visitor(VarDecl)
     def visit(self, vdecl):
-        self.add_binding(vdecl)
         self.visit_all(vdecl.children)
+        self.add_binding(vdecl)
         
     @visitor(FunDecl)
     def visit(self, fdecl):
