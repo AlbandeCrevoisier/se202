@@ -9,8 +9,13 @@ precedence = (
     ('left', 'AND'),
     ('left', 'INF', 'INFOREQ', 'SUP', 'SUPOREQ', 'EQ', 'DIFF'),
     ('left', 'PLUS', 'MINUS'),
-    ('left', 'TIMES', 'DIV')
+    ('left', 'TIMES', 'DIV'),
+    ('right', 'UMINUS')
 )
+
+def p_expr_uminus(p):
+    'expression : MINUS expression %prec UMINUS'
+    p[0] = BinaryOperator('-', IntegerLiteral(0), p[2])
 
 def p_expression_binop(p):
     '''expression : expression PLUS expression
