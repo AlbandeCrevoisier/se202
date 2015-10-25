@@ -71,7 +71,7 @@ def p_type(p):
     p[0] = Type(p[1])
 
 def p_let(p):
-    'expression : LET decls IN expression END'
+    'expression : LET decls IN expressions END'
     p[0] = Let(p[2], p[4])
 
 def p_decls(p):
