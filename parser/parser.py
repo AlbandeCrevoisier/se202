@@ -52,8 +52,15 @@ def p_expression_sequence(p):
     p[0] = SeqExp(p[2])
 
 def p_expressions(p):
-    '''expressions : expression
-                   | expressions SEMICOLON expression'''
+    '''expressions :
+                   | expression_some'''
+    if (len(p) == 1):
+        p[0] = Type('void')
+    p[0] = p[1]
+
+def p_expression_some(p):
+    '''expression_some : expression
+                       | expressions SEMICOLON expression'''
     if (len(p) == 2):
         p[0] = [p[1]]
     else:
@@ -64,7 +71,7 @@ def p_type(p):
     p[0] = Type(p[1])
 
 def p_let(p):
-    'expression : LET decls IN expressions END'
+    'expression : LET decls IN expression END'
     p[0] = Let(p[2], p[4])
 
 def p_decls(p):
