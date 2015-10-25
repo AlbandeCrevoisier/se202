@@ -9,7 +9,6 @@ class Evaluator:
     def visit(self, int):
         return int.intValue
 
-
     @visitor(BinaryOperator)
     def visit(self, binop):
         left = binop.left.accept(self)
@@ -85,7 +84,10 @@ class Evaluator:
             return else_part
         else:
             return None
-            
+
+    @visitor(SeqExp)
+    def visit(self, se):
+        return self.visit(se.exps[-1])
 
     @visitor(None)
     def visit(self, node):

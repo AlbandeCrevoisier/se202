@@ -32,10 +32,6 @@ def p_expression_binop(p):
                   | expression OR expression'''
     p[0] = BinaryOperator(p[2], p[1], p[3])
 
-def p_expression_parentheses(p):
-    'expression : LPAREN expression RPAREN'
-    p[0] = p[2]
-
 def p_expression_number(p):
     'expression : NUMBER'
     p[0] = IntegerLiteral(p[1])
@@ -50,6 +46,18 @@ def p_expression_ifThenElse(p):
 #    p[0] = IfThenElse(p[1], p[3], p[5]=None)
     'expression : IF expression THEN expression ELSE expression'
     p[0] = IfThenElse(p[2], p[4], p[6])
+
+def p_expression_sequence(p):
+    'expression : LPAREN expressions RPAREN'
+    p[0] = SeqExp(p[2])
+
+def p_expressions(p):
+    '''expressions : expression
+                   | expressions SEMICOLON expression'''
+    if (len(p) == 2):
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[3]]
 
 def p_type(p):
     'type : INT'
@@ -107,14 +115,6 @@ def p_arg_some(p):
 def p_arg(p):
     'arg : ID COLON INT'
     p[0] = VarDecl(p[1], Type(p[3]), None)
-
-def p_expressions(p):
-    '''expressions : expression
-                   | expressions SEMICOLON expression'''
-    if (len(p) == 2):
-        p[0] = [p[1]]
-    else:
-        p[0] = p[1] + [p[3]]
 
 def p_funcall(p):
     'expression : ID LPAREN params RPAREN'

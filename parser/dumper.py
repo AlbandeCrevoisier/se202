@@ -60,7 +60,9 @@ class Dumper(Visitor):
 
     @visitor(Type)
     def visit(self, type):
-        return "%s" % type.typename
+        if (type.typename != "void"):
+            return "%s" % type.typename
+        return ""
 
 
     @visitor(VarDecl)
@@ -109,4 +111,16 @@ class Dumper(Visitor):
                 if (param != fcall.params[-1]):
                     ret_str += ", "
         ret_str += ") "
+        return ret_str
+
+
+    @visitor(SeqExp)
+    def visit(self, se):
+        if (len(se.exps) == 1):
+            return "%s" % self.visit(se.exps[0])
+        ret_str = ""
+        for exp in se.exps:
+            ret_str += "%s" + "%s"
+            if (exp != se.exps[-1]):
+                ret_str += "; "
         return ret_str

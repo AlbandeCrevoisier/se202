@@ -103,6 +103,7 @@ def t_ccomment_CCOMMENT(t):
     pass
 
 t_ccomment_ignore_DISCARD = r'[^*/]'
+t_ccomment_ignore = ''
 
 def t_ANY_error(t):
     raise lex.LexError("unknown token %s" % t.value, t.value)
