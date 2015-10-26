@@ -87,6 +87,8 @@ class Evaluator:
 
     @visitor(SeqExp)
     def visit(self, se):
+        for exp in se.exps:
+            exp.accept(self)
         return self.visit(se.exps[-1])
 
     @visitor(None)
