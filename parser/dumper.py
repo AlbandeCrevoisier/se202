@@ -110,7 +110,7 @@ class Dumper(Visitor):
                 ret_str += param.accept(self)
                 if (param != fcall.params[-1]):
                     ret_str += ", "
-        ret_str += ") "
+        ret_str += ")"
         return ret_str
 
 
