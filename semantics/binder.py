@@ -85,6 +85,10 @@ class Binder(Visitor):
         else:
             raise BindException("name not found: %s" % name)
 
+    @visitor(BinaryOperator)
+    def visit(self, bo):
+        self.visit_all(bo.children)
+
     @visitor(Let)
     def visit(self, let):
         self.push_new_scope()
@@ -106,11 +110,7 @@ class Binder(Visitor):
         self.push_new_scope()
         self.depth += 1
         self.visit_all(fdecl.args)
-        if (isinstance(fdecl.exp, Identifier)):
-            self.visit(fdecl.exp)
-        else:
-            self.visit_all(fdecl.exp.children)
-        self.visit_all(fdecl.exp.children)
+        fdecl.exp.accept(self)
         self.depth -= 1
         self.pop_scope()
 
@@ -123,3 +123,7 @@ class Binder(Visitor):
             raise BindException(
                 "Wrong number of parameters when calling %s" % fdecl.name)
         self.visit_all(fcall.children)
+
+    @visitor(SeqExp)
+    def visit(self, se):
+        self.visit_all(se.children)
