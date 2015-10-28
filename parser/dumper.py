@@ -36,7 +36,7 @@ class Dumper(Visitor):
         for exp in let.exps:
             ret_str += exp.accept(self)
             if (exp != let.exps[-1]):
-                ret_str += ", "
+                ret_str += "; "
         ret_str += " end"
         return ret_str
 
