@@ -154,8 +154,8 @@ def p_while(p):
     p[0] = While(p[2], p[4])
 
 def p_for(p):
-    'FOR ID ASSIGN expression TO expression DO expression'
-    p[0] = For(IndexDecl(p[1]), p[3], p[5], p[7])
+    expression : 'FOR ID ASSIGN expression TO expression DO expression'
+    p[0] = For(IndexDecl(p[2]), p[4], p[6], p[8])
 
 def p_error(p):
     import sys
