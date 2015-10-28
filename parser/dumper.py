@@ -129,3 +129,15 @@ class Dumper(Visitor):
     @visitor(While)
     def visit(self, w):
         return "while %s do %s" % (w.condition.accept(self), w.exp.accept(self))
+
+    @visitor(For)
+    def visit(self, f):
+        return "for %s := %s to %s do %s" % (
+            f.indexdecl.accept(self),
+            f.low_bound.accept(self),
+            f.high_bound.accept(self),
+            f.exp.accept(self))
+
+    @visitor(IndexDecl)
+    def visit(self, idxd):
+        return "%s" % idxd.name

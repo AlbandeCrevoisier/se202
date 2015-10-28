@@ -141,3 +141,17 @@ class Binder(Visitor):
     @visitor(While)
     def visit(self, w):
         self.visit_all(w.children)
+
+    @visitor(For)
+    def visit(self, f):
+        f.low_bound.accept(self)
+        f.high_bound.accept(self)
+        self.push_new_scope()
+        f.indexdecl.accept(self)
+        f.exp.accept(self)
+        self.pop_scope()
+
+    @vistor(IndexDecl)
+    def visit(self, idxd):
+        self.add_binding(idxd)
+        
