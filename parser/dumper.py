@@ -125,3 +125,7 @@ class Dumper(Visitor):
     @visitor(Assignment)
     def visit(self, a):
         return "%s := %s" % (a.identifier.accept(self), a.exp.accept(self))
+
+    @visitor(While)
+    def visit(self, w):
+        return "while %s do %s" % (w.condition.accept(self), w.exp.accept(self))

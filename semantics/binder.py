@@ -137,3 +137,7 @@ class Binder(Visitor):
         self.visit_all(a.children)
         if(not isinstance(a.identifier.decl, VarDecl)):
             raise BindException("Assignment must be done on VarDecl identifiers.")
+
+    @visitor(While)
+    def visit(self, w):
+        self.visit_all(w.children)
