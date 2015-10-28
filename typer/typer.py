@@ -114,7 +114,7 @@ class Typer(Visitor):
     @visitor(Identifier)
     def visit(self, i):
         assert i.decl is not None, \
-          "no declaration for identifier %s" % identifier
+          "no declaration for identifier %s" % i
         self.merge(i, i.decl)
 
     @visitor(Type)

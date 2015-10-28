@@ -78,7 +78,7 @@ class IfThenElse(Node):
         assert isinstance(condition, Node), "condition must be a Node instance"
         assert isinstance(then_part, Node), "then_part must be a Node instance"
         assert else_part is None or isinstance(else_part, Node), \
-            "else_part must be a Node instance"
+            "else_part must be a Node instance or None"
         self.condition = condition
         self.then_part = then_part
         self.else_part = else_part
