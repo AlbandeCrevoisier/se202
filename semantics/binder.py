@@ -151,7 +151,7 @@ class Binder(Visitor):
         f.exp.accept(self)
         self.pop_scope()
 
-    @vistor(IndexDecl)
+    @visitor(IndexDecl)
     def visit(self, idxd):
         self.add_binding(idxd)
         
