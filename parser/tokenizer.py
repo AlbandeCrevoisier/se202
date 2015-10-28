@@ -37,7 +37,8 @@ tokens = ('PLUS', 'TIMES', 'MINUS', 'DIV',
           'COLON', 'ASSIGN') \
           + ('IF', 'THEN', 'ELSE') \
           + ('LET', 'IN', 'END') \
-          + ('FUNCTION', 'VAR', 'INT')
+          + ('FUNCTION', 'VAR', 'INT') \
+          + ('WHILE', 'DO', 'FOR', 'TO', 'BREAK')
 
 t_PLUS = r'\+'
 t_MINUS = r'\-' 
