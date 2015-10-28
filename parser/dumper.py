@@ -27,16 +27,18 @@ class Dumper(Visitor):
  
     @visitor(Let)
     def visit(self, let):
-        ret_str = "let "
+        ret_str = "let\n\t"
         if (len(let.decls) != 0):
             for decl in let.decls:
-                ret_str += decl.accept(self) + " "
-        ret_str += "in "
+                ret_str += decl.accept(self) + "\n"
+                if (decl != let.decls[-1]):
+                    ret_str += "\t"
+        ret_str += "in\n\t"
         for exp in let.exps:
             ret_str += exp.accept(self)
             if (exp != let.exps[-1]):
-                ret_str += "; "
-        ret_str += " end"
+                ret_str += ";\n\t"
+        ret_str += "\nend\n"
         return ret_str
 
     @visitor(Identifier)
