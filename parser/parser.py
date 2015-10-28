@@ -41,11 +41,12 @@ def p_expression_identifier(p):
     p[0] = Identifier(p[1])
 
 def p_expression_ifThenElse(p):
-#    '''expression : IF expression THEN expression
-#                  | IF expression THEN expression ELSE expression'''
-#    p[0] = IfThenElse(p[1], p[3], p[5]=None)
-    'expression : IF expression THEN expression ELSE expression'
-    p[0] = IfThenElse(p[2], p[4], p[6])
+    '''expression : IF expression THEN expression
+                  | IF expression THEN expression ELSE expression'''
+    if (len(p) == 5):
+        p[0] = IfThenElse(p[2], p[4], None)
+    else:
+        p[0] = IfThenElse(p[2], p[4], p[6])
 
 def p_expression_sequence(p):
     'expression : LPAREN expressions RPAREN'

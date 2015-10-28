@@ -85,7 +85,6 @@ class Binder(Visitor):
         else:
             raise BindException("name not found: %s" % name)
 
-    '''I do not think this is necessary ...'''
     @visitor(BinaryOperator)
     def visit(self, bo):
         self.visit_all(bo.children)
@@ -95,6 +94,10 @@ class Binder(Visitor):
         self.push_new_scope()
         self.visit_all(let.children)
         self.pop_scope()
+
+    @visitor(IfThenElse)
+    def visit(self, ite):
+        self.visit_all(ite.children)
 
     @visitor(Identifier)
     def visit(self, id):
