@@ -85,6 +85,7 @@ class Binder(Visitor):
         else:
             raise BindException("name not found: %s" % name)
 
+    '''I do not think this is necessary ...'''
     @visitor(BinaryOperator)
     def visit(self, bo):
         self.visit_all(bo.children)
@@ -127,3 +128,9 @@ class Binder(Visitor):
     @visitor(SeqExp)
     def visit(self, se):
         self.visit_all(se.children)
+
+    @visitor(Assignment)
+    def visit(self, a):
+        self.visit_all(a.children)
+        if(not isinstance(a.identifier.decl, VarDecl)):
+            raise BindException("Assignment must be done on VarDecl identifiers.")
