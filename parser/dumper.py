@@ -63,7 +63,7 @@ class Dumper(Visitor):
     @visitor(VarDecl)
     def visit(self, vdecl):
         esc_str = ""
-        if (vdecl.escapes == True):
+        if (self.semantics and vdecl.escapes == True):
             esc_str = "/*e*/"
         if (vdecl.type == None):
             return "var %s%s := %s" % \
