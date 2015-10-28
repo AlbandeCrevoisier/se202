@@ -94,7 +94,7 @@ class Dumper(Visitor):
                 if (arg != fdecl.args[-1]):
                     ret_str += ", "
         ret_str += ") "
-        if (fdecl.type != None):
+        if (fdecl.type != None and fdecl.type.typename != "void"):
             ret_str += ": " + fdecl.type.accept(self) + " "
         ret_str += "= "
         ret_str += fdecl.exp.accept(self)
@@ -110,7 +110,7 @@ class Dumper(Visitor):
                 ret_str += param.accept(self)
                 if (param != fcall.params[-1]):
                     ret_str += ", "
-        ret_str += ") "
+        ret_str += ")"
         return ret_str
 
 
