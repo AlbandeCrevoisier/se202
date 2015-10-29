@@ -92,7 +92,10 @@ class Binder(Visitor):
     @visitor(Let)
     def visit(self, let):
         self.push_new_scope()
-        self.visit_all(let.children)
+        self.visit_all(let.decls)
+        self.push_new_loop(None)
+        self.visit_all(let.exps)
+        self.pop_loop()
         self.pop_scope()
 
     @visitor(IfThenElse)
@@ -132,26 +135,35 @@ class Binder(Visitor):
     def visit(self, se):
         self.visit_all(se.children)
 
-    @visitor(Assignment)
-    def visit(self, a):
-        self.visit_all(a.children)
-        if(not isinstance(a.identifier.decl, VarDecl)):
-            raise BindException("Assignment must be done on VarDecl identifiers.")
-
     @visitor(While)
     def visit(self, w):
+        self.push_new_loop(w)
         self.visit_all(w.children)
+        self.pop_loop()
 
     @visitor(For)
     def visit(self, f):
+        self.push_new_loop(f)
         f.low_bound.accept(self)
         f.high_bound.accept(self)
         self.push_new_scope()
         f.indexdecl.accept(self)
         f.exp.accept(self)
         self.pop_scope()
+        self.pop_loop()
 
     @visitor(IndexDecl)
     def visit(self, idxd):
         self.add_binding(idxd)
-        
+
+    @visitor(Break)
+    def visit(self, b):
+        b.loop = self.current_loop()
+
+    @visitor(Assignment)
+    def visit(self, a):
+        self.visit_all(a.children)
+        if(not isinstance(a.identifier.decl, VarDecl)):
+            raise BindException("Assignment must be done on VarDecl identifiers.")
+
+ 
