@@ -92,10 +92,10 @@ class Binder(Visitor):
     @visitor(Let)
     def visit(self, let):
         self.push_new_scope()
-        self.visit_all(let.decls)
         self.push_new_loop(None)
-        self.visit_all(let.exps)
+        self.visit_all(let.decls)
         self.pop_loop()
+        self.visit_all(let.exps)
         self.pop_scope()
 
     @visitor(IfThenElse)
