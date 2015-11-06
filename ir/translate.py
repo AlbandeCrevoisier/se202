@@ -43,11 +43,12 @@ class Shell:
 class Cx(Shell):
     """Wrap a comparaison operator."""
 
-    def __init__(self, op, left, right):
+    def __init__(self, frame, op, left, right):
         assert isinstance(op, str), "op must be a string"
         assert op in logical_operators, "op must be a logical operator"
         assert isinstance(left, Shell), "left must be a Shell"
         assert isinstance(right, Shell), "right must be a Shell"
+        self.frame = frame
         self.op = op
         self.left = left
         self.right = right
@@ -59,7 +60,7 @@ class Cx(Shell):
                      ifTrue, ifFalse)
 
     def unEx(self):
-        return BINOP(self.op, self.left.unEx(), self.right.unEx())
+        return Ix(self.frame, self, Ex(CONST(1)), Ex(CONST(0))).unEx()
 
     def unNx(self):
         return SEQ([self.left.unNx(), self.right.unNx()])
@@ -345,7 +346,7 @@ class Translator(Visitor):
         # If this is a logical operator, return a Cx Shell, else return
         # an Ex one.
         if binop.op in logical_operators:
-            return Cx(binop.op, left, right)
+            return Cx(self.current_frame(), binop.op, left, right)
         return Ex(BINOP(binop.op, left.unEx(), right.unEx()))
 
     @visitor(Identifier)
@@ -407,6 +408,8 @@ class Translator(Visitor):
 
     @visitor(SeqExp)
     def visit(self, seq):
+        if len(seq.exps) == 1:
+            return seq.exps[0].accept(self)
         exps = self.visit_all(seq.exps)
         type = seq.exps[-1].type if seq.exps else None
         if type is None or type.typename == 'void':
