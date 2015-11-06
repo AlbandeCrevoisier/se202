@@ -1,0 +1,7 @@
+//1024
+let
+	function f(n: int) : int =
+		2 * n
+in
+	print_int(f(f(f(f(f(f(f(f(f(f(1)))))))))))
+end
