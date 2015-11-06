@@ -1,1 +1,2 @@
-I do not understand why we should load *c twice.
+*c is loaded twice to avoid issues which would arise if there was a case of
+pointer aliasing between a and c.

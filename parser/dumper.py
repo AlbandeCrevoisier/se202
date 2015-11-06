@@ -25,21 +25,21 @@ class Dumper(Visitor):
         return "(%s %s %s)" % \
                (binop.left.accept(self), binop.op, binop.right.accept(self))
  
- 
     @visitor(Let)
     def visit(self, let):
-        ret_str = "let "
+        ret_str = "let\n\t"
         if (len(let.decls) != 0):
             for decl in let.decls:
-                ret_str += decl.accept(self) + " "
-        ret_str += "in "
+                ret_str += decl.accept(self) + "\n"
+                if (decl != let.decls[-1]):
+                    ret_str += "\t"
+        ret_str += "in\n\t"
         for exp in let.exps:
             ret_str += exp.accept(self)
             if (exp != let.exps[-1]):
-                ret_str += ", "
-        ret_str += " end"
+                ret_str += ";\n\t"
+        ret_str += "\nend\n"
         return ret_str
-
 
     @visitor(Identifier)
     def visit(self, id):
@@ -50,13 +50,13 @@ class Dumper(Visitor):
             scope_diff = ''
         return '%s%s' % (id.name, scope_diff)
 
-
     @visitor(IfThenElse)
     def visit(self, ite):
-        return "if %s then %s else %s" % (ite.condition.accept(self),
-                                           ite.then_part.accept(self),
-                                           ite.else_part.accept(self))
-
+        ret_str = "if %s then %s" % (ite.condition.accept(self),
+                                           ite.then_part.accept(self))
+        if (ite.else_part is not None):
+            ret_str += " else %s" % ite.else_part.accept(self)
+        return ret_str
 
     @visitor(Type)
     def visit(self, type):
@@ -64,11 +64,10 @@ class Dumper(Visitor):
             return "%s" % type.typename
         return ""
 
-
     @visitor(VarDecl)
     def visit(self, vdecl):
         esc_str = ""
-        if (vdecl.escapes == True):
+        if (self.semantics and vdecl.escapes == True):
             esc_str = "/*e*/"
         if (vdecl.type == None):
             return "var %s%s := %s" % \
@@ -80,7 +79,6 @@ class Dumper(Visitor):
             return "var %s%s : %s :=  %s " % \
                 (vdecl.name, esc_str, vdecl.type.accept(self),
                 vdecl.exp.accept(self))
-
 
     @visitor(FunDecl)
     def visit(self, fdecl):
@@ -113,7 +111,6 @@ class Dumper(Visitor):
         ret_str += ")"
         return ret_str
 
-
     @visitor(SeqExp)
     def visit(self, se):
         if (len(se.exps) == 1):
@@ -124,3 +121,27 @@ class Dumper(Visitor):
             if (exp != se.exps[-1]):
                 ret_str += "; "
         return ret_str + ")"
+
+    @visitor(While)
+    def visit(self, w):
+        return "while %s do %s" % (w.condition.accept(self), w.exp.accept(self))
+
+    @visitor(For)
+    def visit(self, f):
+        return "for %s := %s to %s do %s" % (
+            f.indexdecl.accept(self),
+            f.low_bound.accept(self),
+            f.high_bound.accept(self),
+            f.exp.accept(self))
+
+    @visitor(IndexDecl)
+    def visit(self, idxd):
+        return "%s" % idxd.name
+
+    @visitor(Break)
+    def visit(self, b):
+        return "break"
+
+    @visitor(Assignment)
+    def visit(self, a):
+        return "%s := %s" % (a.identifier.accept(self), a.exp.accept(self))

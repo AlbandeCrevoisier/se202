@@ -41,11 +41,12 @@ def p_expression_identifier(p):
     p[0] = Identifier(p[1])
 
 def p_expression_ifThenElse(p):
-#    '''expression : IF expression THEN expression
-#                  | IF expression THEN expression ELSE expression'''
-#    p[0] = IfThenElse(p[1], p[3], p[5]=None)
-    'expression : IF expression THEN expression ELSE expression'
-    p[0] = IfThenElse(p[2], p[4], p[6])
+    '''expression : IF expression THEN expression
+                  | IF expression THEN expression ELSE expression'''
+    if (len(p) == 5):
+        p[0] = IfThenElse(p[2], p[4], None)
+    else:
+        p[0] = IfThenElse(p[2], p[4], p[6])
 
 def p_expression_sequence(p):
     'expression : LPAREN expressions RPAREN'
@@ -134,7 +135,7 @@ def p_params(p):
     if (len(p) == 1):
         p[0] = []
     else:
-        p[0] =p[1]
+        p[0] = p[1]
 
 def p_paramsome(p):
     '''paramsome : expression
@@ -143,6 +144,22 @@ def p_paramsome(p):
         p[0] = [p[1]]
     else:
         p[0] = p[1] + [p[3]]
+
+def p_while(p):
+    'expression : WHILE expression DO expression'
+    p[0] = While(p[2], p[4])
+
+def p_for(p):
+    'expression : FOR ID ASSIGN expression TO expression DO expression'
+    p[0] = For(IndexDecl(p[2]), p[4], p[6], p[8])
+
+def p_break(p):
+    'expression : BREAK'
+    p[0] = Break()
+
+def p_assignment(p):
+    'expression : ID ASSIGN expression'
+    p[0] = Assignment(Identifier(p[1]), p[3])
 
 def p_error(p):
     import sys
