@@ -460,7 +460,8 @@ class Translator(Visitor):
         return Nx(SEQ([MOVE(indexSxp,
                             f.low_bound.accept(self).unEx()),
                        LABEL(testLabel),
-                       Cx("<=",
+                       Cx(self.current_frame(),
+                          "<=",
                           Ex(indexSxp),
                           f.high_bound.accept(self)).unCx(
                              NAME(bodyLabel), NAME(endLabel)),
