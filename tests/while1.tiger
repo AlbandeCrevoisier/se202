@@ -1,0 +1,10 @@
+//42
+let
+	var the_answer_to_Life_the_Universe_and_Everything : int := 42
+	var i : int := 0
+in
+	while (i < the_answer_to_Life_the_Universe_and_Everything) do
+		i := i + 1;
+	print_int(i);
+	i
+end
