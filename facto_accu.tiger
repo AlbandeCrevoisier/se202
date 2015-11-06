@@ -1,0 +1,17 @@
+//120
+let
+	var a : int := 1
+	function f(n: int) : int =
+	(
+		a := 1;
+		if (n < 2) then
+			1
+		else (
+			for i := 2 to n do
+				a := a * i;
+			a
+		)
+	)
+in
+	print_int(f(5))
+end
