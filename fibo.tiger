@@ -4,13 +4,13 @@ let
 	(
 		let
 	 		var tmp := 0
-	 	in (
+	 	in
 			if (n < 2) then
 				tmp := n
 			else
 				tmp := f(n - 1) + f(n - 2);
 			tmp
-		) end
+		end
 	)
 in
 	print_int(f(15))
