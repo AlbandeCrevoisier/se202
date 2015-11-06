@@ -139,11 +139,11 @@ class Frame:
         # Access parameter). The first parameter (r0, in which the static link
         # had been written) has already been handled above.
         store_parameters = \
-            [MOVE(access.toSxp(self.fp),
+            [MOVE(access.toSxp(TEMP(self.fp)),
                   TEMP(self.param_regs[idx + 1])
                   if idx < self.max_params_in_regs - 1
                   else InFrame((idx - self.max_params_in_regs + 1) *
-                               self.word_size).toSxp(self.fp))
+                               self.word_size).toSxp(TEMP(self.fp)))
              for (idx, access) in enumerate(self.param_access)]
 
         return SEQ(begin_label +
