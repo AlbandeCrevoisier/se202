@@ -34,4 +34,5 @@ class IrvmFrame(Frame):
         return "L%s" % suffix
 
     def allocate_frame_size(self):
-        return MOVE(TEMP(self.sp), BINOP('-', TEMP(self.sp), CONST(4)))
+        return MOVE(TEMP(self.sp),
+                    BINOP('-', TEMP(self.sp), CONST(self.offset)))
