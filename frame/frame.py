@@ -106,11 +106,6 @@ class Frame:
         begin_label = [LABEL(self.label)]
         end_label = [LABEL(self.end_label)]
 
-        # If we are in the main function, we do not need to save or restore
-        # anything.
-        if self.label.name == 'main':
-            return SEQ(begin_label + [stm] + end_label)
-
         # Code to save and restore the previous frame pointer and set-it up
         # wrt the stack pointer. Also, a label is put at the place where the
         # frame size will be allocated later (we will only know this

@@ -395,11 +395,17 @@ class Translator(Visitor):
             call = CALL(NAME(Label(funcall.identifier.name)), args)
         else:
             name = NAME(self.labels[funcall.identifier.decl])
-            fp = TEMP(self.current_frame().fp)
-            for i in range(funcall.identifier.depth -
-                           funcall.identifier.decl.depth):
-                fp = MEM(fp)
-            call = CALL(name, [fp] + args)
+            # We want to give the function the static link of its enclosing
+            # frame. If the call_depth is 0 (the function is immediately
+            # inside the current frame), this is the current frame pointer.
+            # If it is negative, we need to go up the static link chain
+            # as many levels as needed.
+            call_depth = \
+                funcall.identifier.depth - funcall.identifier.decl.depth
+            static_link = TEMP(self.current_frame().fp)
+            for i in range(call_depth):
+                static_link = MEM(static_link)
+            call = CALL(name, [static_link] + args)
         type = funcall.identifier.decl.type
         if type is None or type.typename == 'void':
             call.return_result = False
