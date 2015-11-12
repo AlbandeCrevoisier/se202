@@ -55,6 +55,7 @@ class Frame:
         assert isinstance(label, Label), "label must be a Label"
         self.label = label
         self.end_label = label + "$end"
+        self.restore_label = label + "$restore"
         self.allocate_frame_size_label = label + "$allocateFrameSize"
         self.returns_value = False
         self.offset = self.word_size   # We will at least save the static link
@@ -102,8 +103,9 @@ class Frame:
         pointer, the registers holding the parameters, the preservation of
         the callee saved registers, and the end label."""
 
-        # Begin and end label creation
+        # Begin, restore, and end label creation
         begin_label = [LABEL(self.label)]
+        restore_label = [LABEL(self.restore_label)]
         end_label = [LABEL(self.end_label)]
 
         # Code to save and restore the previous frame pointer and set-it up
@@ -143,5 +145,6 @@ class Frame:
 
         return SEQ(begin_label +
                    save_fp + save_static_link + save_callee_save +
-                   store_parameters + [stm] + restore_callee_save +
+                   store_parameters + [stm] +
+                   restore_label + restore_callee_save +
                    restore_fp + end_label)
